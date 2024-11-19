@@ -1,0 +1,28 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using GameXuaVN.Web.Models.Games;
+
+@{
+    Layout = null;
+}
+
+@model GameListViewModel
+@if (Model != null && Model.Data != null && Model.Data.Count > 0)
+{
+    foreach (var item in Model.Data)
+    {
+        <div class="col-lg-3 col-3">
+            <div class="small-box bg-game-card">
+                <div class="inner">
+                    <img src="@item.ThumbnailBase64" alt="@item.Title" style="width:266px; height:178px;" />
+                </div>
+                <a href="@Url.Action("Detail", "Nes", new {id = item.Id, title = item.Url})"> <p class="game-name"> @item.Name</p></a>
+                <a href="@Url.Action("Detail", "Nes", new {id = item.Id, title = item.Url})" class="small-box-footer">
+                    @L("Play") <i class="fas fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div>
+    }
+
+}

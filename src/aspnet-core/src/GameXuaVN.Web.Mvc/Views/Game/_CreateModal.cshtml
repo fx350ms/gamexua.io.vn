@@ -1,0 +1,35 @@
+﻿@using GameXuaVN.Web.Models.Common.Modals
+@using GameXuaVN.Web.Models.Games
+@model GameListViewModel
+@{
+    Layout = null;
+}
+<div class="modal fade" id="GameCreateModal" tabindex="-1" role="dialog" aria-labelledby="GameCreateModalLabel" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CreateNewGame")))
+            <form name="userCreateForm" role="form" class="form-horizontal">
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" role="tab" href="#create-user-details">@L("GameDetails")</a>
+                        </li>
+                       
+                    </ul>
+                    <div class="tab-content mt-4">
+                        <div role="tabpanel" class="tab-pane container active" id="create-user-details">
+                            
+                            <div class="form-group row required">
+                                <label class="col-md-3 col-form-label">@L("Name")</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="Name" required maxlength="180">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @await Html.PartialAsync("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+            </form>
+        </div>
+    </div>
+</div>

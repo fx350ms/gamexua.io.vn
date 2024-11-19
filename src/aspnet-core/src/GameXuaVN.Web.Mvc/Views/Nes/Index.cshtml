@@ -1,0 +1,74 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using GameXuaVN.Web.Models.Games;
+
+@{
+    Layout = "~/views/shared/frontends/_layout.cshtml";
+}
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/view-resources/Views/games/nes.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/views/games/nes.min.js" asp-append-version="true"></script>
+    </environment>
+
+}
+@model GameListViewModel
+
+<div class="content-wrapper">
+    <div class="col-lg-9 col-md-9">
+        <h2 class="mb-2">Game nes</h2>
+        <form id="form">
+            <input name="groups" id="hidden-page" value="#" type="hidden" />
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+                            <li class="paginate_button page-item active"><a href="javascript:void(0)" data-item="paging" page-type="goto" data-value="#" class="page-link">#</a></li>
+                            @for (char c = 'A'; c <= 'Z'; c++)
+                            {
+                                <li class="paginate_button page-item "><a href="javascript:void(0)" data-item="paging" page-type="goto" data-value="@c" class="page-link">@c</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="content-list">
+                
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="pagination">
+
+                            <li class="paginate_button page-item active"><a href="javascript:void(0)" data-item="paging" page-type="goto" data-value="#" class="page-link">#</a></li>
+                            @for (char c = 'A'; c <= 'Z'; c++)
+                            {
+                                <li class="paginate_button page-item "><a href="javascript:void(0)" data-item="paging" page-type="goto" data-value="@c" class="page-link">@c</a></li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <div class="col-lg-3 col-md-3">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8576118237502630"
+                crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-format="autorelaxed"
+             data-ad-client="ca-pub-8576118237502630"
+             data-ad-slot="4387805365"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>

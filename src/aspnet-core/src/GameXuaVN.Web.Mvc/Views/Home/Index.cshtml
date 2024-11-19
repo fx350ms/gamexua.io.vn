@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "~/views/shared/frontends/_layout.cshtml";
+}
+@section scripts
+{
+    <environment names="Development">
+        <script src="~/view-resources/Views/home/index.js" asp-append-version="true"></script>
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/view-resources/views/home/index.min.js" asp-append-version="true"></script>
+    </environment>
+
+}
+<div class="content-wrapper">
+    <div class="col-lg-9 col-md-9">
+        <h5 class="mb-2">Xin chào</h5>
+        <div class="row">
+            <div class="col-12">
+                <p>
+                    Nếu bạn từng cầm chiếc tay cầm NES ngày xưa, thì chắc chắn những tựa game kinh điển như Contra, Super Mario, Tank,... đã gắn liền với tuổi thơ của bạn. Những buổi chiều ngồi cùng bạn bè, mải mê vượt qua từng màn chơi đầy thử thách, mỗi lần nhân vật mất mạng là thêm một tiếng thở dài tiếc nuối, nhưng chẳng thể dứt ra khỏi màn hình. Những ký ức ấy giờ đây có thể sống lại, ngay trong tầm tay bạn!
+                </p>
+            </div>
+        </div>
+    
+        <h5 class="mb-2">@L("TopGame")</h5>
+        <div class="row" id="div-top-play-content">
+          
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿<nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+    <div class="container">
+        <a href="/" class="navbar-brand">
+            <img src="/img/gamexua_logo_2.png" alt="GameXua Logo" class="brand-image img-circle elevation-3" style="width:75px;"> 
+            <span class="brand-text font-weight-light"></span>
+        </a>
+        <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse order-3" id="navbarCollapse">
+
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/" class="nav-link nav-link-main">@L("HomePage")</a>
+                </li>
+              
+               @*  <li class="nav-item">
+                    <a href="#" class="nav-link nav-link-main">@L("DonateMe")</a>
+                </li> *@
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "NES")" class="nav-link nav-link-main">@L("NES")</a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "PSOne")" class="nav-link nav-link-main">@L("PS1")</a>
+                </li>
+
+
+               @*  <li class="nav-item">
+                    <a href="#" class="nav-link nav-link-main">@L("DownloadEmulator")</a>
+                </li> *@
+               @*  <li class="nav-item dropdown">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link nav-link-main dropdown-toggle">NINTENDO</a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                        <li><a href="@Url.Action("Index", "Nes")" class="dropdown-item">NES </a></li>
+                        <li><a href="#" class="dropdown-item">FDS</a></li>
+                        <li><a href="#" class="dropdown-item">SNES</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link nav-link-main dropdown-toggle">  SEGA</a>
+                    <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                        <li><a href="#" class="dropdown-item">NES </a></li>
+                        <li><a href="#" class="dropdown-item">FDS</a></li>
+                        <li><a href="#" class="dropdown-item">SNES</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link nav-link-main dropdown-toggle">  PLAYSTATION</a>
+                </li> *@
+            </ul>
+
+            <form class="form-inline ml-0 ml-md-3">
+                <div class="input-group input-group-sm">
+                    <input class="form-control form-control-navbar" type="search" placeholder="Tìm kiếm trò chơi" aria-label="Search">
+                    <div class="input-group-append">
+                        <button class="btn btn-navbar" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</nav>

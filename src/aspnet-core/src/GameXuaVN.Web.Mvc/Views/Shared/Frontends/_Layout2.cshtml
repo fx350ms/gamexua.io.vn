@@ -1,0 +1,107 @@
+﻿@using Abp.Configuration.Startup
+@using Abp.Web.Mvc.Alerts
+@using Abp.Web.Security.AntiForgery
+@using GameXuaVN.Web.Resources
+@inject IAbpAntiForgeryManager AbpAntiForgeryManager
+@inject IMultiTenancyConfig MultiTenancyConfig
+@inject IWebResourceManager WebResourceManager
+@inject IAlertManager AlertManager
+@inject ILanguageManager LanguageManager
+@{
+    AbpAntiForgeryManager.SetCookie(Context);
+
+    var pageTitle = !string.IsNullOrWhiteSpace(ViewBag.Title) ? ViewBag.Title + " / " : "";
+    pageTitle += "GameXuaVN";
+
+    var metaDesc = "Trải nghiệm và tải về miễn phí những game cổ điển huyền thoại như Contra, 1944, Super Mario và nhiều hơn nữa. Chơi game NES trực tuyến với hình ảnh chân thực và mượt mà. Tham gia cộng đồng yêu thích game cổ điển ngay hôm nay!";
+    var title = "";
+    var keywords = "";
+    var siteUrl = "https://gamexua.io";
+    var hostUrl = "/";
+}
+<!DOCTYPE html>
+<html lang="@LanguageManager.CurrentLanguage.Name">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>@pageTitle</title>
+
+    <meta name="a.validate.01" content="7247ba982631a877e55a6c4c24d187b0ba97" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+    <meta name="description" content="@metaDesc">
+    <meta name="keywords" content="@keywords">
+    <title>@title</title>
+    
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content />
+    <meta name="twitter:description" content />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content =""/>
+    <meta property="og:url" content="@siteUrl" />
+    <link rel="canonical" href="@siteUrl">
+
+    <meta name="application-name" content="RetroGames">
+    <meta name="theme-color" content="#e96969">
+    <link href="@hostUrl\css\app.css?v=20241009" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/png" href="favicon.png" />
+  
+
+</head>
+
+ <body style="width:100%">
+    
+    <p class="notice-gamepad" style="display: none"></p>
+    <div class="off-canvas-wrapper">
+        <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+
+            <div class="off-canvas position-left light-off-menu" id="offCanvas-responsive" data-off-canvas>
+                <div class="off-menu-close">
+                    <h3>Menu</h3>
+                    <span data-toggle="offCanvas-responsive"><i class="fa fa-times"></i></span>
+                </div>
+                
+                <div class="responsive-search">
+                    <form class="search-form" method="get" action="https://www.retrogames.cc/search">
+                        <div class="input-group">
+                            <input class="input-group-field" type="text" name="q" placeholder="search Here">
+                            <div class="input-group-button">
+                                <button type="submit" name><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="top-button">
+                    <ul class="menu">
+                        <li class="dropdown-login">
+                            <a href="login.html">Login/Register</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="off-canvas-content" data-off-canvas-content>
+                
+                @await Html.PartialAsync("_HeaderBar.cshtml")
+
+                @RenderBody()
+
+                @await Html.PartialAsync("_BottomBar.cshtml")
+                @await Html.PartialAsync("_LoginForm.cshtml")
+                
+
+            </div>
+        </div>
+    </div>
+
+    </body>
+
+
+
+@await Html.PartialAsync("_Scripts.cshtml")
+@RenderSection("scripts", required: false)

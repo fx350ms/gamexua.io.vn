@@ -1,0 +1,60 @@
+﻿@using Abp.Configuration.Startup
+@using Abp.Web.Mvc.Alerts
+@using Abp.Web.Security.AntiForgery
+@using GameXuaVN.Web.Resources
+@inject IAbpAntiForgeryManager AbpAntiForgeryManager
+@inject IMultiTenancyConfig MultiTenancyConfig
+@inject IWebResourceManager WebResourceManager
+@inject IAlertManager AlertManager
+@inject ILanguageManager LanguageManager
+@{
+    AbpAntiForgeryManager.SetCookie(Context);
+
+    var pageTitle = !string.IsNullOrWhiteSpace(ViewBag.Title) ? ViewBag.Title + " / " : "";
+    pageTitle += "GameXuaVN";
+
+    var description = !string.IsNullOrWhiteSpace(ViewBag.Description) ? ViewBag.Description : "Chơi những tựa game huyền thoại và sống lại tuổi thơ với Contra, Super Mario, Tank... miễn phí và trực tuyến!";
+
+ 
+
+}
+<!DOCTYPE html>
+<html lang="@LanguageManager.CurrentLanguage.Name">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>@pageTitle</title>
+
+    @await Html.PartialAsync("_Styles.cshtml")
+    @RenderSection("styles", required: false)
+
+    <meta name="keywords" content="Contra, Super Mario, Tank, game NES, game cổ điển, chơi game trực tuyến">
+    <meta name="description" content="Chơi game cổ điển như Contra, Super Mario, và Tank miễn phí trực tuyến. Khám phá những game NES huyền thoại và sống lại ký ức tuổi thơ của bạn!">
+
+    <meta property="og:title" content="@pageTitle">
+    <meta property="og:description" content="@description">
+    <meta property="og:image" content="">
+    <meta name="robots" content="index, follow">
+
+
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        @await Html.PartialAsync("_Header.cshtml")
+        @await Html.PartialAsync("_SideBar.cshtml")
+        <div class="content-wrapper">
+            @await Html.PartialAsync("_Alerts.cshtml")
+            @RenderBody()
+        </div>
+        @await Html.PartialAsync("_Footer.cshtml")
+    </div>
+
+    @await Html.PartialAsync("_Scripts.cshtml")
+    @RenderSection("scripts", required: false)
+    @WebResourceManager.RenderScripts()
+
+   
+</body>
+</html>

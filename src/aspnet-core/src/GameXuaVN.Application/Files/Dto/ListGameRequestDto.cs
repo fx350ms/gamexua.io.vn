@@ -8,6 +8,7 @@ namespace GameXuaVN.Games.Dto
     public class ListGameRequestDto : PagedResultRequestDto
     {
      
+        public string Keyword { get; set; } = string.Empty;
         public string Page { get; set; } = string.Empty;
         public int CategoryId { get; set; } = -1;
     }

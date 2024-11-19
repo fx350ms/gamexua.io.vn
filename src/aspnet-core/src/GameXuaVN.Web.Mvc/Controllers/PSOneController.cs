@@ -21,7 +21,7 @@ namespace GameXuaVN.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return RedirectToAction("CommingSoon", "Home");
+            return RedirectToRoute("CommingSoon", "Home");
         }
 
     }

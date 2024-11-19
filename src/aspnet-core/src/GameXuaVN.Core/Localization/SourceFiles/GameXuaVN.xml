@@ -110,7 +110,6 @@
 		<text name="InvalidEmailAddress">Invalid email address</text>
 		<text name="InvalidPattern">Invalid</text>
 		<text name="PairsDoNotMatch">Do not match</text>
-		<text name="All">All</text>
 		<text name="TotalRecordsCount">Total: {0}</text>
 		<text name="Search">Search</text>
 		<text name="Clear">Clear</text>
@@ -133,6 +132,8 @@
 		<text name="NES">Hệ máy NES(Điện tử băng)</text>
 		<text name="PS1">Hệ máy PS1(Đĩa)</text>
 		<text name="SNES">Hệ máy Super NES</text>
+		<text name="All">Tất cả</text>
 		
+
 	</texts>
 </localizationDictionary>

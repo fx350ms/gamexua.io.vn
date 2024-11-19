@@ -4,6 +4,20 @@
         _$modal = $('#GameCreateModal'),
         _$form = _$modal.find('form'),
         _$table = $('#GamesTable');
+    debugger;
+
+    _gameService.getAll = function (input, ajaxParams) {
+        debugger;
+        return abp.ajax($.extend(true, {
+            url: abp.appPath + '/Game/GetAll' + abp.utils.buildQueryString([{ name: 'keyword', value: input.keyword },
+                { name: 'skipCount', value: input.skipCount },
+                { name: 'page', value: input.page },
+                { name: 'maxResultCount', value: input.maxResultCount }
+            ]) + '',
+            type: 'GET'
+        }, ajaxParams));
+    };
+
 
     var _$gamesTable = _$table.DataTable({
         paging: true,
@@ -37,6 +51,7 @@
                 data: 'name',
                 sortable: false
             },
+
             {
                 targets: 2,
                 data: 'description',
@@ -55,15 +70,22 @@
                     return `${row.totalLike} / ${row.totalDislike}`
                 }
             },
-
             {
                 targets: 5,
+                data: 'thumnail',
+                sortable: false,
+                render: (data, type, row, meta) => {
+                    return `<img src="${row.thumbnailBase64}"  style="width:133px; height:80px;" />`
+                }
+            },
+            {
+                targets: 6,
                 data: null,
                 sortable: false,
                 width: 300,
                 defaultContent: '',
                 render: (data, type, row, meta) => {
-
+                   
                     return [
                         `   <button type="button" class="btn btn-sm bg-secondary edit-game" data-game-id="${row.id}" data-toggle="modal" data-target="#GameEditModal">`,
                         `       <i class="fas fa-pencil-alt"></i> ${l('Edit')}`,

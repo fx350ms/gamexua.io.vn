@@ -30,5 +30,6 @@ namespace GameXuaVN.Web.Models.Games
         [MaxLength(2)]
 
         public string Page { get; set; }
+
     }
 }

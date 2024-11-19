@@ -93,6 +93,13 @@ namespace GameXuaVN.Web.Startup
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
+
+                endpoints.MapControllerRoute(
+                name: "comingSoon",
+                pattern: "coming-soon",
+                defaults: new { controller = "Home", action = "ComingSoon" }
+            );
+
                 // SEO-friendly route for games
                 endpoints.MapControllerRoute(
                     name: "seoGameRoute",
@@ -100,7 +107,7 @@ namespace GameXuaVN.Web.Startup
                     defaults: new { controller = "Nes", action = "Detail" });
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
-               
+
             });
         }
     }

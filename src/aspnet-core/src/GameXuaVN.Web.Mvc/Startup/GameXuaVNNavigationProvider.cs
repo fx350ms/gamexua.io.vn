@@ -57,13 +57,21 @@ namespace GameXuaVN.Web.Startup
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Roles)
                     )
                 )
+                 .AddItem(
+                     new MenuItemDefinition(
+                         PageNames.Tenants,
+                         L("GameCategory"),
+                         url: "Category",
+                         icon: "fas fa-folder"
+                     )
+                 )
+                 
                 .AddItem(
                      new MenuItemDefinition(
                          PageNames.Tenants,
                          L("GameList"),
                          url: "Game",
-                         icon: "fas fa-file"
-                         
+                         icon: "fas fa-gamepad"
                      )
                  )
                 ;

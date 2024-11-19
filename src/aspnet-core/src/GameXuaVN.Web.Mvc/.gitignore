@@ -4,3 +4,6 @@ wwwroot/libs/
 # Ignore bundle files
 wwwroot/view-resources/Views/**/*.min.*
 wwwroot/view-resources/Views/Shared/Components/**/*.min.*
+
+# Ignore www.retrogames.cc
+wwwroot/www.retrogames.cc/

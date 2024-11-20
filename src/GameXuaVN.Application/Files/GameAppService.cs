@@ -1,10 +1,12 @@
 ﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using GameXuaVN.Authorization.Roles;
 using GameXuaVN.Categories.Dto;
 using GameXuaVN.Entities;
 using GameXuaVN.Games.Dto;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +25,23 @@ namespace GameXuaVN.Games
             _gameRepository = gameRepository;
         }
 
- 
+        public override async Task<PagedResultDto<GameDto>> GetAllAsync(PagedGameResultRequestDto input)
+        {
+            var query = (await _gameRepository.GetAllAsync())
+
+                .Where(u =>
+                    (input.CategoryId == -1 || u.CategoryId == input.CategoryId)
+                    && (string.IsNullOrEmpty(input.PageName) || u.Page == input.PageName)
+                    && (string.IsNullOrEmpty(input.Keyword) || (u.Name.Contains(input.Keyword))
+                ));
+            query = ApplySorting(query, input);
+            var total = query.Count();
+            query = ApplyPaging(query, input);
+            var list = query.ToList();
+            var result = new PagedResultDto<GameDto>(total, ObjectMapper.Map<List<GameDto>>(list));
+            return result;
+        }
+
 
         public async Task<ListGameResultRequestDto> GetListAsync(ListGameRequestDto request)
         {

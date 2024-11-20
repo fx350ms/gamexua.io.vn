@@ -4,10 +4,12 @@
         _$modal = $('#GameCreateModal'),
         _$form = _$modal.find('form'),
         _$table = $('#GamesTable');
+   
 
     var _$gamesTable = _$table.DataTable({
         paging: true,
         serverSide: true,
+       
         listAction: {
             ajaxFunction: _gameService.getAll,
             inputFilter: function () {
@@ -55,9 +57,16 @@
                     return `${row.totalLike} / ${row.totalDislike}`
                 }
             },
-
             {
                 targets: 5,
+                data: 'thumnail',
+                sortable: false,
+                render: (data, type, row, meta) => {
+                    return `<img src="${row.thumbnailBase64}"  style="width:133px; height:80px;" />`
+                }
+            },
+            {
+                targets: 6,
                 data: null,
                 sortable: false,
                 width: 300,
@@ -67,6 +76,9 @@
                     return [
                         `   <button type="button" class="btn btn-sm bg-secondary edit-game" data-game-id="${row.id}" data-toggle="modal" data-target="#GameEditModal">`,
                         `       <i class="fas fa-pencil-alt"></i> ${l('Edit')}`,
+                        '   </button>',
+                        `   <button type="button" class="btn btn-sm bg-success edit-game" data-game-id="${row.id}" data-toggle="modal" data-target="#GameEditModal">`,
+                        `       <i class="fas fa-play"></i> ${l('Test')}`,
                         '   </button>',
                         `   <button type="button" class="btn btn-sm bg-primary edit-game" data-game-id="${row.id}" data-toggle="modal" data-target="#GameEditModal">`,
                         `       <i class="fas fa-download"></i> ${l('Download')}`,

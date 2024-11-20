@@ -16,9 +16,9 @@ jobs:
 
     steps:
      - name: Setup SSH
-       uses: webfactory/ssh-agent@v0.5.1
+       uses: webfactory/ssh-agent@v0.9.0
        with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-private-key: ${{ secrets.MY_KEY }}
         
      - name: Setup Git Client
        run: |

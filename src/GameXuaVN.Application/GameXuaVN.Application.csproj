@@ -10,6 +10,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <RootNamespace>GameXuaVN</RootNamespace>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Configurations>Debug;Release;Staging</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameXuaVN.Core\GameXuaVN.Core.csproj" />

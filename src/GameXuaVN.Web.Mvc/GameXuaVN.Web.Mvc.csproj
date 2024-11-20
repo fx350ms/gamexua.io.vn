@@ -13,6 +13,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <Configurations>Debug;Release;Staging</Configurations>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="wwwroot\www.retrogames.cc\**" />

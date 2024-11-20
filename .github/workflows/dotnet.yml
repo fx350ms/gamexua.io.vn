@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Generate SSH Key
         run: |
-          ssh-keygen -t rsa -b 4096 -C "github-actions@plesk" -f /tmp/id_rsa -N ""
+          ssh-keygen -t rsa -b 4096 -C "thanhtuk9acntt@hotmail.com" -f /tmp/id_rsa -N ""
           echo "SSH_PRIVATE_KEY_START"
           cat /tmp/id_rsa
           echo "SSH_PRIVATE_KEY_END"

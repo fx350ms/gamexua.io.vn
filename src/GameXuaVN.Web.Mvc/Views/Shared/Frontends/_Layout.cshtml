@@ -42,18 +42,20 @@
     @await Html.PartialAsync("_Scripts.cshtml")
     @RenderSection("scripts", required: false)
     @WebResourceManager.RenderScripts()
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8576118237502630"
-            crossorigin="anonymous"></script>
-    <!-- RightSide -->
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-8576118237502630"
-         data-ad-slot="1217511263"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <environment names="Staging,Production">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8576118237502630"
+                crossorigin="anonymous"></script>
+        <!-- RightSide -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-8576118237502630"
+             data-ad-slot="1217511263"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </environment>
+   
 </body>
 </html>

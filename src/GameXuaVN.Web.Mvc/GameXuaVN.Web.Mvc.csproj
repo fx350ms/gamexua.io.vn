@@ -15,6 +15,12 @@
     <PreserveCompilationReferences>true</PreserveCompilationReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="wwwroot\www.retrogames.cc\**" />
+    <Content Remove="wwwroot\www.retrogames.cc\**" />
+    <EmbeddedResource Remove="wwwroot\www.retrogames.cc\**" />
+    <None Remove="wwwroot\www.retrogames.cc\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Remove="wwwroot\js\jqueryb58e.js" />
   </ItemGroup>
   <ItemGroup>
@@ -50,9 +56,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\js\jqueryb58e.js" />
-    <None Include="wwwroot\www.retrogames.cc\bower_components\foundation-sites\dist\foundation.js" />
-    <None Include="wwwroot\www.retrogames.cc\bower_components\jquery\dist\jqueryb58e.js" />
-    <None Include="wwwroot\www.retrogames.cc\bower_components\what-input\what-input.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Views\Game\Index.cshtml">

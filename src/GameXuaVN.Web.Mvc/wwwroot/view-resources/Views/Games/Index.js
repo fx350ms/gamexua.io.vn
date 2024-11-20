@@ -107,16 +107,8 @@
         if (!_$form.valid()) {
             return;
         }
-
         var game = _$form.serializeFormToObject();
-        game.roleNames = [];
-        var _$roleCheckboxes = _$form[0].querySelectorAll("input[name='role']:checked");
-        if (_$roleCheckboxes) {
-            for (var roleIndex = 0; roleIndex < _$roleCheckboxes.length; roleIndex++) {
-                var _$roleCheckbox = $(_$roleCheckboxes[roleIndex]);
-                game.roleNames.push(_$roleCheckbox.val());
-            }
-        }
+        game.Page = game.Name.substring(0, 1);
 
         abp.ui.setBusy(_$modal);
         _gameService.create(game).done(function () {

@@ -15,21 +15,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Generate SSH Key
-        run: |
-          ssh-keygen -t rsa -b 4096 -C "thanhtuk9acntt@hotmail.com" -f /tmp/id_rsa -N ""
-          echo "SSH_PRIVATE_KEY_START"
-          cat /tmp/id_rsa
-          echo "SSH_PRIVATE_KEY_END"
-          echo "SSH_PUBLIC_KEY_START"
-          cat /tmp/id_rsa.pub
-          echo "SSH_PUBLIC_KEY_END"
-          id: ssh-key
-
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
-         ssh-private-key: ${{ secrets.MY_KEY }}
+         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY  }}
 
       - name: Setup Git Client
         run: |
@@ -58,7 +47,7 @@ jobs:
             # Push files to the "deploy" branch
       - name: Deploy
         run: |
-          git clone --depth 1 --single-branch -b deploy git@github.com:${{ github.repository }}.git deploy
+          git clone --depth 1 --single-branch -b deploy thanhtuk9acntt@hotmail.com:${{ github.repository }}.git deploy
           mv deploy/.git deploy-.git
           rm -rf deploy
           mkdir deploy

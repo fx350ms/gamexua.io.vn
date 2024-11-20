@@ -15,23 +15,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
+     - name: Setup SSH
+       uses: webfactory/ssh-agent@v0.5.1
+       with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+     - name: Setup Git Client
+       run: |
+        ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+        git config --global user.email "github-actions@doesnotmatter.dev"
+        git config --global user.name "GitHub Actions"
+
+     - name: Checkout
+       uses: actions/checkout@v4
+
+       
+     - name: Setup .NET Core
+       uses: actions/setup-dotnet@v4
+      
+       with:
         dotnet-version: 8.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet publish --configuration Release
+     - name: Restore dependencies
+       run: dotnet restore
+     - name: Build
+       run: dotnet publish --configuration Release
      # Clone this repository (deploy branch) inside the "deploy" folder
             # Before clearing out, move .git folder out of the "deploy" folder
             # Recreate deploy folder, empty
             # Move .git folder back again
             # Move publish to deploy folder
             # Push files to the "deploy" branch
-    - name: Deploy
-      run: |
+     - name: Deploy
+       run: |
         git clone --depth 1 --single-branch -b deploy git@github.com:${{ github.repository }}.git deploy
         mv deploy/.git deploy-.git
         rm -rf deploy

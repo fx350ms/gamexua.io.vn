@@ -85,7 +85,11 @@ jobs:
         cp -R ./publish/* ./deploy
         cd deploy
         git init
-        git remote add origin git@github.com:fx350ms/gamexua.io.vn.git
+        if git remote | grep origin; then
+          git remote set-url origin git@github.com:fx350ms/gamexua.io.vn.git
+        else
+          git remote add origin git@github.com:fx350ms/gamexua.io.vn.git
+        fi
         git add .
         git diff --staged --quiet || git commit -m "Update Artifacts"
         git push origin deploy --force

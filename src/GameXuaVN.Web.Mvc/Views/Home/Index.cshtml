@@ -12,19 +12,19 @@
     </environment>
 
 }
-@{
-    <environment names="Development">
-        <h2>Hế lô</h2>
-    </environment>
-
-    <environment names="Staging,Production">
-        <h2>Hế lô các bạn.</h2>
-    </environment>
-}
 
 <div class="content-wrapper">
     <div class="col-lg-9 col-md-9">
-        <h5 class="mb-2">Xin chào</h5>
+        @{
+            <environment names="Development">
+                <h5 class="mb-2">Hế lô</h5>
+            </environment>
+
+            <environment names="Staging,Production">
+                <h5 class="mb-2">Hế lô các bạn.</h5>
+            </environment>
+        }
+
         <div class="row">
             <div class="col-12">
                 <p>
@@ -32,10 +32,9 @@
                 </p>
             </div>
         </div>
-    
+
         <h5 class="mb-2">@L("TopGame")</h5>
         <div class="row" id="div-top-play-content">
-          
         </div>
     </div>
 </div>

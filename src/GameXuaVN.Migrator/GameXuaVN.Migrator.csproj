@@ -11,6 +11,9 @@
     <Configurations>Debug;Release;Staging</Configurations>
   </PropertyGroup>
   <ItemGroup>
+    <None Update="appsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="appsettings.json;appsettings.Staging.json;log4net.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

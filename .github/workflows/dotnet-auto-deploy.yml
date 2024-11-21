@@ -41,9 +41,9 @@ jobs:
 
      # Step 6: Upload artifact (thư mục publish)
     - name: Upload publish artifact
-      uses: actions/upload-artifact@v1.0.0
+      uses: actions/upload-artifact@v3
       with:
-        name: publish-artifact
+        name: ./publish
     # Step 7: Setup SSH for push to deploy branch
     - name: Setup SSH
       uses: webfactory/ssh-agent@v0.5.1

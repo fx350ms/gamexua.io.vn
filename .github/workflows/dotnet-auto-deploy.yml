@@ -39,11 +39,31 @@ jobs:
       
     # Step 4: Build project
     - name: Build
-      run: dotnet build --no-restore
-      
+      #run: dotnet build --no-restore
+      run: |
+        # Danh sách các file .csproj cần build và publish
+        PROJECTS=(
+          "src/GameXuaVN.Core/GameXuaVN.Core.csproj"
+          "src/GameXuaVN.EntityFrameworkCore/GameXuaVN.EntityFrameworkCore.csproj"
+          "src/GameXuaVN.Application/GameXuaVN.Application.csproj"
+          "src/GameXuaVN.Web.Core/GameXuaVN.Web.Core.csproj"
+          "src/GameXuaVN.Web.Mvc/GameXuaVN.Web.Mvc.csproj"
+        )
+         # Build từng dự án
+        for PROJECT in "${PROJECTS[@]}"; do
+          echo "Building $PROJECT"
+          dotnet build "$PROJECT" --configuration Release
+        done
+
+        # Publish từng dự án
+        for PROJECT in "${PROJECTS[@]}"; do
+          echo "Publishing $PROJECT"
+          dotnet publish "$PROJECT" --configuration Release --output ./publish/$(basename "$PROJECT" .csproj)
+        done
+        
     # Step 5: Publish project
-    - name: Publish project
-      run: dotnet publish --configuration Release --output ./publish
+    #- name: Publish project
+     # run: dotnet publish --configuration Release --output ./publish
 
      # Step 6: Upload artifact (thư mục publish)
     - name: Upload publish artifact

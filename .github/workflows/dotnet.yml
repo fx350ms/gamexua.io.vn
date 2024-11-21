@@ -19,7 +19,10 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY  }}
+      - name: Test SSH KEY
+        run: ssh -T git@github.com
 
+        
       - name: Setup Git Client
         run: |
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
@@ -41,8 +44,7 @@ jobs:
         run: dotnet publish --configuration Release
 
 
-      - name: Test KEY
-        run: ssh -T git@github.com
+      
 
      # Clone this repository (deploy branch) inside the "deploy" folder
             # Before clearing out, move .git folder out of the "deploy" folder

@@ -91,7 +91,7 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/view-resources/Views/_Bundles/home-index.min.js",
+    "outputFileName": "wwwroot/view-resources/Views/Home/index.min.js",
     "inputFiles": [
       "wwwroot/libs/chartjs/dist/Chart.js",
       "wwwroot/view-resources/Views/Home/Index.js"

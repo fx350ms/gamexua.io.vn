@@ -15,20 +15,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    
+    # Step 1: Checkout code from main branch
+    - name: Checkout source cod
+      uses: actions/checkout@v4
+      with:
+        ref: main  # Pull từ nhánh main
+        
+    # Step 2: Setup .NET environment
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
         
+    # Step 3: Restore dependencies    
     - name: Restore dependencies
       run: dotnet restore
       
+    # Step 4: Build project
     - name: Build
       run: dotnet build --no-restore
       
-     #Step 5: Publish project
+    # Step 5: Publish project
     - name: Publish project
       run: dotnet publish --configuration Release --output ./publish
 
@@ -37,6 +44,11 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: publish-artifact
+    # Step 7: Setup SSH for push to deploy branch
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.1
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} 
         
     # Step 7: Checkout release branch
     - name: Checkout Deploy branch
@@ -45,20 +57,25 @@ jobs:
         git config user.email "actions@github.com"
         git checkout -b release origin/deploy || git checkout release
 
-    # Step 8: Copy artifact to Deploy branch
-    - name: Copy artifact to Deploy branch
+    # Step 8: Clone deploy branch
+    - name: Clone deploy branch
       run: |
-        rm -rf *
-        cp -r ../publish/* .
+        git clone --depth 1 --single-branch -b deploy git@github.com:fx350ms/gamexua.io.vn.git deploy
+        mv deploy/.git deploy-.git
+        rm -rf deploy
+        mkdir deploy
+        mv deploy-.git deploy/.git
+
+    # Step 9: Copy published files to deploy branch
+    - name: Copy published files
+      run: |
+        cp -R ./publish/* ./deploy
+        cd deploy
         git add .
-        git commit -m "Update Deploy artifact from main"
-    
-    # Step 9: Push artifact to release branch
-    - name: Push to Deploy branch
-      run: git push origin Deploy --force
-
-
-
-
+        git diff --staged --quiet || git commit -m "Update Artifacts"
         
-        path: ./publish
+    # Step 10: Push changes to deploy branch
+    - name: Push changes to deploy branch
+      run: |
+        cd deploy
+        git push origin deploy --force

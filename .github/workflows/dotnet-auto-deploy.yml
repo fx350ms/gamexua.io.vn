@@ -16,7 +16,7 @@ jobs:
 
     steps:
      # Step 0: Set User
-    - name: Copy published files
+    - name: Set User
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
@@ -86,10 +86,10 @@ jobs:
         cd deploy
         git add .
         git diff --staged --quiet || git commit -m "Update Artifacts"
-
+        git push deploy --force
         
     # Step 10: Push changes to deploy branch
-    - name: Push changes to deploy branch
-      run: |
-        cd deploy
-        git push deploy --force
+    #- name: Push changes to deploy branch
+     # run: |
+     #   cd ./deploy
+     #   git push deploy --force

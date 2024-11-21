@@ -1,0 +1,64 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: .NET
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+     #Step 5: Publish project
+    - name: Publish project
+      run: dotnet publish --configuration Release --output ./publish
+
+     # Step 6: Upload artifact (thư mục publish)
+    - name: Upload publish artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: publish-artifact
+        
+    # Step 7: Checkout release branch
+    - name: Checkout Deploy branch
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git checkout -b release origin/deploy || git checkout release
+
+    # Step 8: Copy artifact to Deploy branch
+    - name: Copy artifact to Deploy branch
+      run: |
+        rm -rf *
+        cp -r ../publish/* .
+        git add .
+        git commit -m "Update Deploy artifact from main"
+    
+    # Step 9: Push artifact to release branch
+    - name: Push to Deploy branch
+      run: git push origin Deploy --force
+
+
+
+
+        
+        path: ./publish

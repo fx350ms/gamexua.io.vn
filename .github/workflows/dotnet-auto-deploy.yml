@@ -57,7 +57,7 @@ jobs:
       run: |
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
-        git checkout -b release origin/deploy || git checkout release
+        git checkout -b release origin/release || git checkout release
 
     # Step 8: Clone deploy branch
     - name: Clone deploy branch

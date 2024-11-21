@@ -73,8 +73,8 @@ jobs:
     # Step 9: Copy published files to deploy branch
     - name: Copy published files
       run: |
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
+        git config user.name "thanhtuk9acntt"
+        git config user.email "thanhtuk9acntt@hotmail.com"
         mkdir -p ./deploy
         cp -R ./publish/* ./deploy
         cd deploy

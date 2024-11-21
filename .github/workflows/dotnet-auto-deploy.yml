@@ -56,10 +56,7 @@ jobs:
         done
 
         # Publish từng dự án
-        for PROJECT in "${PROJECTS[@]}"; do
-          echo "Publishing $PROJECT"
-          dotnet publish "$PROJECT" --configuration Release --output ./publish/$(basename "$PROJECT" .csproj)
-        done
+        dotnet publish "src/GameXuaVN.Web.Mvc/GameXuaVN.Web.Mvc.csproj" --configuration Release --output ./publish/
         
     # Step 5: Publish project
     #- name: Publish project

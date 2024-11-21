@@ -55,9 +55,11 @@ jobs:
     # Step 7: Checkout release branch
     - name: Checkout Deploy branch
       run: |
+        git fetch origin
+        git branch -r  # Kiểm tra các nhánh từ remote
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
-        git checkout -b release deploy || git checkout release
+        git checkout -b deploy origin/deploy || git checkout deploy || git checkout -b deploy
 
     # Step 8: Clone deploy branch
     - name: Clone deploy branch

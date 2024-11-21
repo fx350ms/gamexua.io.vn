@@ -47,7 +47,7 @@ jobs:
             # Push files to the "deploy" branch
       - name: Deploy
         run: |
-          git clone --depth 1 --single-branch -b deploy thanhtuk9acntt@hotmail.com:${{ github.repository }}.git deploy
+          git clone --depth 1 --single-branch -b deploy git@github.com:${{ github.repository }}.git deploy
           mv deploy/.git deploy-.git
           rm -rf deploy
           mkdir deploy

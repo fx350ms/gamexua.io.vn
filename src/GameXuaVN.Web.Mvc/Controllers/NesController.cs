@@ -68,11 +68,15 @@ namespace GameXuaVN.Web.Controllers
         public async Task<IActionResult> Play(int id, string title)
         {
             var dto = await _gameAppService.GetAsync(new EntityDto<int>(id));
+
+            dto.TotalPlay++;
+            await _gameAppService.UpdateAsync(dto);
             var model = new PlayingGameViewModel()
             {
                 Id = id,
                 Data = dto
             };
+
             return View(model);
         }
 

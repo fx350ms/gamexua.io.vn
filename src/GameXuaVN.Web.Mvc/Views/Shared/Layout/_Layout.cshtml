@@ -9,10 +9,10 @@
 @inject ILanguageManager LanguageManager
 @{
     AbpAntiForgeryManager.SetCookie(Context);
-
+    string siteName = "Trò chơi xưa";
+    string siteUrl = "http://trochoixua.io.vn/";
     var pageTitle = !string.IsNullOrWhiteSpace(ViewBag.Title) ? ViewBag.Title + " / " : "";
-    pageTitle += "gamexua.io.vn";
-
+    pageTitle += siteName;
     var description = !string.IsNullOrWhiteSpace(ViewBag.Description) ? ViewBag.Description : "Chơi những tựa game huyền thoại và sống lại tuổi thơ với Contra, Super Mario, Tank... miễn phí và trực tuyến!";
  
 
@@ -28,15 +28,20 @@
 
     @await Html.PartialAsync("_Styles.cshtml")
     @RenderSection("styles", required: false)
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@pageTitle</title>
     <meta name="keywords" content="Contra, Super Mario, Tank, game NES, game cổ điển, chơi game trực tuyến">
     <meta name="description" content="Chơi game cổ điển như Contra, Super Mario, và Tank miễn phí trực tuyến. Khám phá những game NES huyền thoại và sống lại ký ức tuổi thơ của bạn!">
-
     <meta property="og:title" content="@pageTitle">
-    <meta property="og:description" content="@description">
+    <meta property="og:description" content="Chơi game cổ điển như Contra, Super Mario, và Tank miễn phí trực tuyến. Khám phá những game NES huyền thoại và sống lại ký ức tuổi thơ của bạn!">
     <meta property="og:image" content="~/img/contra-wallpaper.jpg">
-    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="trochoixua.io.vn" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="@siteUrl" />
 
+    <meta name="robots" content="index, follow">
 
 </head>
 <body class="hold-transition sidebar-mini">

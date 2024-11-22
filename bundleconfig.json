@@ -80,7 +80,7 @@
       "wwwroot/libs/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js",
       "wwwroot/libs/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js",
       "wwwroot/libs/abp-web-resources/Abp/Framework/scripts/libs/abp.signalr-client.js",
-      
+
       "wwwroot/libs/jquery-validate/jquery.validate.js",
       "wwwroot/libs/jquery-validate/jquery.validate.unobtrusive.js",
       "wwwroot/libs/push.js/push.js",
@@ -155,6 +155,37 @@
     "outputFileName": "wwwroot/view-resources/Views/_Bundles/helpers.min.js",
     "inputFiles": [
       "wwwroot/Common/helpers.js"
+    ]
+  },
+
+  {
+    "outputFileName": "wwwroot/view-resources/Views/Games/Index.min.js",
+    "inputFiles": [
+      "wwwroot/view-resources/Views/Games/Index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/view-resources/Views/Games/Nes.min.js",
+    "inputFiles": [
+      "wwwroot/view-resources/Views/Games/Nes.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/view-resources/Views/Files/Index.min.js",
+    "inputFiles": [
+      "wwwroot/view-resources/Views/Files/Index.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/view-resources/Views/Games/_EditModal.min.js",
+    "inputFiles": [
+      "wwwroot/view-resources/Views/Games/_EditModal.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/view-resources/Views/Files/_EditModal.min.js",
+    "inputFiles": [
+      "wwwroot/view-resources/Views/Files/_EditModal.js"
     ]
   }
 ]

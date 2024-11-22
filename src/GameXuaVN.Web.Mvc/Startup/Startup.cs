@@ -92,7 +92,7 @@ namespace GameXuaVN.Web.Startup
 
             app.UseEndpoints(endpoints =>
             {
-              //  endpoints.MapHub<AbpCommonHub>("/signalr");
+                endpoints.MapHub<AbpCommonHub>("/signalr");
                 // SEO-friendly route for games
                 endpoints.MapControllerRoute(
                     name: "seoGameRoute",

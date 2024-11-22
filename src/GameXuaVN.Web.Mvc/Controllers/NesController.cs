@@ -42,7 +42,7 @@ namespace GameXuaVN.Web.Controllers
             {
                 CategoryId = -1,
                 Page = page,
-                MaxResultCount = 8
+                MaxResultCount = 24
             });
             var model = new GameListViewModel()
             {

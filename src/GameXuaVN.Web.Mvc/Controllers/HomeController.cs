@@ -28,7 +28,13 @@ namespace GameXuaVN.Web.Controllers
 
         public ActionResult TopGame()
         {
+            return View();
+        }
 
+
+
+        public ActionResult AboutMe()
+        {
             return View();
         }
 

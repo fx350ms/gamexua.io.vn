@@ -96,8 +96,24 @@ namespace GameXuaVN.Web.Startup
                 // SEO-friendly route for games
                 endpoints.MapControllerRoute(
                     name: "seoGameRoute",
-                    pattern: "nes/detail/{id}/{title}",
+                    pattern: "choi-game/nes/{title}/{id}",
                     defaults: new { controller = "Nes", action = "Detail" });
+
+                endpoints.MapControllerRoute(
+                  name: "gioi-thieu",
+                  pattern: "gioi-thieu",
+                  defaults: new { controller = "Home", action = "AboutMe" });
+
+                endpoints.MapControllerRoute(
+                    name: "seoGameRoute1",
+                    pattern: "danh-sach-game/nes",
+                    defaults: new { controller = "Nes", action = "index" });
+
+                endpoints.MapControllerRoute(
+                    name: "commingSoon",
+                    pattern: "comming-soon",
+                    defaults: new { controller = "Home", action = "CommingSoon" });
+
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
                

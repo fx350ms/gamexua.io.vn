@@ -9,9 +9,10 @@
 @inject ILanguageManager LanguageManager
 @{
     AbpAntiForgeryManager.SetCookie(Context);
-
+    string siteName = "Trò chơi xưa";
+    string siteUrl = "http://trochoixua.io.vn/";
     var pageTitle = !string.IsNullOrWhiteSpace(ViewBag.Title) ? ViewBag.Title + " / " : "";
-    pageTitle += "trochoixua.io.vn";
+    pageTitle += siteName;
 }
 <!DOCTYPE html>
 <html lang="@LanguageManager.CurrentLanguage.Name">
@@ -22,13 +23,12 @@
     <title>@pageTitle</title>
     <meta name="keywords" content="Contra, Super Mario, Tank, game NES, game cổ điển, chơi game trực tuyến">
     <meta name="description" content="Chơi game cổ điển như Contra, Super Mario, và Tank miễn phí trực tuyến. Khám phá những game NES huyền thoại và sống lại ký ức tuổi thơ của bạn!">
-
     <meta property="og:title" content="@pageTitle">
     <meta property="og:description" content="Chơi game cổ điển như Contra, Super Mario, và Tank miễn phí trực tuyến. Khám phá những game NES huyền thoại và sống lại ký ức tuổi thơ của bạn!">
     <meta property="og:image" content="~/img/contra-wallpaper.jpg">
     <meta property="og:site_name" content="trochoixua.io.vn" />
-    <meta property="og:type" content="xxx:photo">
-    <meta property="og:url" content="http://trochoixua.io.vn/" />
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="@siteUrl" />
 
     <meta name="robots" content="index, follow">
     <environment names="Staging,Production">

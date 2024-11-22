@@ -31,7 +31,9 @@
     <meta property="og:url" content="http://trochoixua.io.vn/" />
 
     <meta name="robots" content="index, follow">
-
+    <environment names="Staging,Production">
+        <meta name="google-adsense-account" content="ca-pub-8576118237502630">
+    </environment>
 
     @await Html.PartialAsync("_Styles.cshtml")
     <style>
@@ -39,7 +41,6 @@
             color: #000 !important;
         }
     </style>
-
     @RenderSection("styles", required: false)
 
 

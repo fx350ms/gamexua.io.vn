@@ -62,8 +62,17 @@ namespace GameXuaVN.Web.Startup
                          PageNames.Tenants,
                          L("GameList"),
                          url: "Game",
-                         icon: "fas fa-file"
+                         icon: "fas fa-gamepad"
                          
+                     )
+                 )
+                 .AddItem(
+                     new MenuItemDefinition(
+                         PageNames.Tenants,
+                         L("Category"),
+                         url: "category",
+                         icon: "fas fa-folder"
+
                      )
                  )
                 ;

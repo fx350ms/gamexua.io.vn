@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace GameXuaVN.Games.Dto
 {
     [AutoMapFrom(typeof(Game))]
-    public class GameDto :  EntityDto<int>
+    public class GameDto : EntityDto<int>
     {
         public string Name { get; set; }
         public string Description { get; set; }
@@ -29,7 +29,7 @@ namespace GameXuaVN.Games.Dto
 
         public string Page { get; set; } // #,A,B,C,D
 
-        public string ThumbnailBase64 => $"data:image/jpeg;base64, {Convert.ToBase64String(Thumbnail)}";
+        public string ThumbnailBase64 => Thumbnail == null ? string.Empty : $"data:image/jpeg;base64, {Convert.ToBase64String(Thumbnail)}";
 
         public string Title => Name.Replace(" ", "");
 

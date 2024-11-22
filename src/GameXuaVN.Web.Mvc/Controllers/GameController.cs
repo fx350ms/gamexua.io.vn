@@ -39,6 +39,7 @@ namespace GameXuaVN.Web.Controllers
 
             var model = new CreateOrUpdateGameModel
             {
+                Id = game.Id,
                 Name = game.Name,
                 Data = game.Data,
                 CategoryId = game.CategoryId,

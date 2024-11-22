@@ -42,6 +42,35 @@ namespace GameXuaVN.Games
             return result;
         }
 
+        public override async Task<GameDto> UpdateAsync(GameDto input)
+        {
+            var existingGame = await _gameRepository.GetAsync(input.Id);
+            existingGame.Name = input.Name;
+            existingGame.Description = input.Description;
+            existingGame.TotalPlay = input.TotalPlay;
+            existingGame.TotalLike = input.TotalLike;
+            existingGame.TotalDislike = input.TotalDislike;
+            existingGame.ContentType = input.ContentType;
+            existingGame.EmbedUrl = input.EmbedUrl;
+            existingGame.Page = input.Name.Substring(0, 1).ToUpper();
+            existingGame.CategoryId = input.CategoryId;
+
+            // Update Thumbnail nếu không null
+            if (input.Thumbnail != null && input.Thumbnail.Length > 0)
+            {
+                existingGame.Thumbnail = input.Thumbnail;
+            }
+
+            // Update Data nếu không null
+            if (input.Data != null && input.Data.Length > 0)
+            {
+                existingGame.Data = input.Data;
+            }
+
+            var updateDto = MapToEntityDto(existingGame);
+            return await base.UpdateAsync(updateDto);
+        }
+
 
         public async Task<ListGameResultRequestDto> GetListAsync(ListGameRequestDto request)
         {

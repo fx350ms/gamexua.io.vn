@@ -133,6 +133,6 @@
 		<text name="NES">Hệ máy NES(Điện tử băng)</text>
 		<text name="PS1">Hệ máy PS1(Đĩa)</text>
 		<text name="SNES">Hệ máy Super NES</text>
-		
+		<text name="AboutMe">Giới thiệu</text>
 	</texts>
 </localizationDictionary>

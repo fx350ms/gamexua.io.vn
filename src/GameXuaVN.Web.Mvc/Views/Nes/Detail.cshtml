@@ -10,26 +10,35 @@
 @using GameXuaVN.Web.Models.Games
 
 @model PlayingGameViewModel
-
-<style>
-    /* Container đảm bảo iframe co giãn linh hoạt */
-    .game-frame-container {
-        width: 100%;
-        max-width: 100%; /* Đảm bảo khung chứa không vượt chiều rộng của màn hình */
-        display: flex;
-        justify-content: center;
-        overflow: hidden; /* Ẩn phần nội dung thừa (nếu có) */
-    }
-
-        .game-frame-container iframe {
-            width: 100%; /* Chiếm toàn bộ chiều rộng khung chứa */
-            max-width: 100%; /* Đảm bảo không vượt quá chiều rộng của khung */
-            min-width: 320px; /* Đảm bảo hiển thị tối thiểu trên thiết bị nhỏ */
-            height: calc(100vw * 0.5625); /* Tỷ lệ 16:9 dựa trên chiều rộng màn hình */
-            max-height: 600px; /* Giới hạn chiều cao tối đa */
-            border: none;
+@section styles
+{
+    <style>
+        /* Container đảm bảo iframe co giãn linh hoạt */
+        .game-frame-container {
+            width: 100%;
+            max-width: 100%; /* Đảm bảo khung chứa không vượt chiều rộng của màn hình */
+            display: flex;
+            justify-content: center;
+            overflow: hidden; /* Ẩn phần nội dung thừa (nếu có) */
         }
-</style>
+
+            .game-frame-container iframe {
+                width: 100%; /* Chiếm toàn bộ chiều rộng khung chứa */
+                max-width: 100%; /* Đảm bảo không vượt quá chiều rộng của khung */
+                min-width: 320px; /* Đảm bảo hiển thị tối thiểu trên thiết bị nhỏ */
+                height: calc(100vw * 0.5625); /* Tỷ lệ 16:9 dựa trên chiều rộng màn hình */
+                max-height: 600px; /* Giới hạn chiều cao tối đa */
+                border: none;
+            }
+
+        button {
+            min-width: 100px;
+            margin: 5px;
+        }
+    </style>
+
+}
+
 <div class="content-wrapper">
     @if (Model != null && Model.Data != null)
     {
@@ -81,11 +90,57 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col-12 text-center">
+                                <!-- Nút Thích -->
+                                <button id="like-btn" class="btn btn-success me-2">
+                                    <i class="fas fa-thumbs-up"></i> Thích
+                                </button>
+                                <!-- Nút Không thích -->
+                                <button id="dislike-btn" class="btn btn-danger me-2">
+                                    <i class="fas fa-thumbs-down"></i> Không thích
+                                </button>
+                                <!-- Nút Chia sẻ Facebook -->
+                                <button id="share-btn" class="btn btn-primary" onclick="shareOnFacebook()">
+                                    <i class="fas fa-share"></i> Chia sẻ
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <!-- Sidebar -->
                     <div class="col-12 col-lg-4 order-1 order-lg-2">
-                        <!-- Bạn có thể thêm nội dung Sidebar ở đây -->
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title">Hướng dẫn sử dụng</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <strong>Di chuyển:</strong>
+                                        <ul>
+                                            <li>Trái: <kbd>A</kbd></li>
+                                            <li>Phải: <kbd>D</kbd></li>
+                                            <li>Lên: <kbd>W</kbd></li>
+                                            <li>Xuống: <kbd>S</kbd></li>
+                                        </ul>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Bắn:</strong> <kbd>J</kbd>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Nhảy:</strong> <kbd>K</kbd>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Tạm dừng:</strong> <kbd>Enter</kbd>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Lựa chọn:</strong> <kbd>Shift</kbd>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -124,3 +179,15 @@
         </div>
     }
 </div>
+@section scripts
+{
+    <script>
+        // Tùy chọn hành động với nút "Chia sẻ"
+        function shareOnFacebook() {
+            const url = window.location.href;
+            const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+            window.open(facebookShareUrl, '_blank');
+        }
+    </script>
+
+}

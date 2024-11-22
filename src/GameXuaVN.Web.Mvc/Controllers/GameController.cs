@@ -57,7 +57,7 @@ namespace GameXuaVN.Web.Controllers
         {
             return View();
         }
-
+    
         public async Task<IActionResult> GetFile(int id)
         {
             var dto = await _gameAppService.GetAsync(new EntityDto<int>(id));

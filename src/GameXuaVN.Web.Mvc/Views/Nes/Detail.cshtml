@@ -17,6 +17,7 @@
         .game-frame-container {
             width: 100%;
             max-width: 100%; /* Đảm bảo khung chứa không vượt chiều rộng của màn hình */
+            min-height: 620px !important;
             display: flex;
             justify-content: center;
             overflow: hidden; /* Ẩn phần nội dung thừa (nếu có) */
@@ -26,6 +27,7 @@
                 width: 100%; /* Chiếm toàn bộ chiều rộng khung chứa */
                 max-width: 100%; /* Đảm bảo không vượt quá chiều rộng của khung */
                 min-width: 320px; /* Đảm bảo hiển thị tối thiểu trên thiết bị nhỏ */
+                min-height: 720px;
                 height: calc(100vw * 0.5625); /* Tỷ lệ 16:9 dựa trên chiều rộng màn hình */
                 max-height: 600px; /* Giới hạn chiều cao tối đa */
                 border: none;

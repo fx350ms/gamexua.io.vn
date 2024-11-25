@@ -5,6 +5,7 @@
 
 @model PlayingGameViewModel
 @{
+    string siteUrl = "http://trochoixua.io.vn/";
     Layout = null;
 }
 
@@ -24,9 +25,14 @@
         <meta name="description" content="Chơi game cổ điển như Contra, Super Mario, và Tank miễn phí trực tuyến. Khám phá những game NES huyền thoại và sống lại ký ức tuổi thơ của bạn!">
         <meta property="og:title" content="@Model.Data.Name">
         <meta property="og:description" content="@Model.Data.Description">
-        <meta property="og:image" content="">
-        <meta name="robots" content="index, follow">
+      
+        <meta property="og:image" content="@(siteUrl)img/contra-wallpaper.jpg">
+        <meta property="og:site_name" content="trochoixua.io.vn" />
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="@siteUrl" />
 
+
+        <meta name="robots" content="index, follow">
 
     </head>
     <body>

@@ -25,6 +25,7 @@ namespace GameXuaVN.Games
             _gameRepository = gameRepository;
         }
 
+
         public override async Task<PagedResultDto<GameDto>> GetAllAsync(PagedGameResultRequestDto input)
         {
             var query = (await _gameRepository.GetAllAsync())

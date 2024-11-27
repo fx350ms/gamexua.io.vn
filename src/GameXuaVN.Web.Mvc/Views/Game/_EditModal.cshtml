@@ -1,12 +1,12 @@
 ﻿@using GameXuaVN.Web.Models.Common.Modals
-@using GameXuaVN.Web.Models.Games
+@using GameXuaVN.Games.Dto
 
-@model CreateOrUpdateGameModel
+@model GameDto
 @{
     Layout = null;
 }
 @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditGame")))
-<form name="GameEditForm" role="form" class="form-horizontal">
+<form name="GameEditForm" role="form" class="form-horizontal" enctype="multipart/form-data">
     <input type="hidden" name="Id" value="@Model.Id" />
     <div class="modal-body">
         <ul class="nav nav-tabs" role="tablist">
@@ -55,7 +55,7 @@
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label">@L("Thumbnail")</label>
                     <div class="col-md-9">
-                        <input type="file" class="form-control-file" name="Thumbnail" accept="image/*">
+                        <input type="file" class="form-control-file" name="ThumbnailFromFile" accept="image/*">
                     </div>
                 </div>
 
@@ -63,7 +63,7 @@
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label">@L("Data")</label>
                     <div class="col-md-9">
-                        <input type="file" class="form-control-file" name="Data" accept="application/octet-stream">
+                        <input type="file" class="form-control-file" name="DataFromFile" accept="application/octet-stream">
                     </div>
                 </div>
 

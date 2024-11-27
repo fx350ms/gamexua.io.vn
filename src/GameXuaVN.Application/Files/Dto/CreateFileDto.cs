@@ -17,7 +17,12 @@ namespace GameXuaVN.Games.Dto
         public int TotalPlay { get; set; }
         public int TotalLike { get; set; }
         public int TotalDislike { get; set; }
+
+        public IFormFile ThumbnailFromFile { get; set; }
+
         public byte[] Thumbnail { get; set; }
+
+        public IFormFile DataFromFile { get; set; }
 
         // Dữ liệu ảnh (binary)
         public byte[] Data { get; set; }

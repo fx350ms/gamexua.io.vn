@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+src/GameXuaVN.Web.Mvc/wwwroot/view-resources/Views/*/*.min.js

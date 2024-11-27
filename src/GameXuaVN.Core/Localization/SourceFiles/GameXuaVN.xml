@@ -134,5 +134,7 @@
 		<text name="PS1">Hệ máy PS1(Đĩa)</text>
 		<text name="SNES">Hệ máy Super NES</text>
 		<text name="AboutMe">Giới thiệu</text>
+		<text name="DownloadROM">Tải rom</text>
+		
 	</texts>
 </localizationDictionary>

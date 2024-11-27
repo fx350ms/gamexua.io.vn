@@ -4,6 +4,7 @@ using Abp.Reflection.Extensions;
 using GameXuaVN.Authorization;
 using GameXuaVN.Games.Dto;
 using GameXuaVN.Entities;
+using GameXuaVN.Rooms.Dto;
 namespace GameXuaVN
 {
     [DependsOn(
@@ -20,6 +21,10 @@ namespace GameXuaVN
                 cfg.CreateMap<CreateGameDto, Game>();
                 cfg.CreateMap<GameDto, Game>();
                 cfg.CreateMap<Game, GameDto>();
+
+                cfg.CreateMap<RoomDto, Room>().ReverseMap();
+                cfg.CreateMap<CreateRoomDto, Room>().ReverseMap();
+
             });
         }
 

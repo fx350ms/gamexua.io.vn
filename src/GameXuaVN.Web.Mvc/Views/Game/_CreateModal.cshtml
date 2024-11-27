@@ -8,7 +8,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CreateNewGame")))
-            <form name="gameCreateForm" role="form" class="form-horizontal">
+            <form name="gameCreateForm" role="form" class="form-horizontal" enctype="multipart/form-data">
                 <div class="modal-body">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
@@ -55,7 +55,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">@L("Thumbnail")</label>
                                 <div class="col-md-9">
-                                    <input type="file" class="form-control-file" name="Thumbnail" accept="image/*">
+                                    <input type="file" class="form-control-file" name="ThumbnailFromFile" accept="image/*">
                                 </div>
                             </div>
 
@@ -63,7 +63,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">@L("Data")</label>
                                 <div class="col-md-9">
-                                    <input type="file" class="form-control-file" name="Data" accept="application/octet-stream">
+                                    <input type="file" class="form-control-file" name="DataFromFile" accept="application/octet-stream">
                                 </div>
                             </div>
 

@@ -8,6 +8,7 @@ using GameXuaVN.Web.Models.Games;
 using GameXuaVN.Web.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace GameXuaVN.Web.Controllers
@@ -37,19 +38,79 @@ namespace GameXuaVN.Web.Controllers
         {
             var game = await _gameAppService.GetAsync(new EntityDto<int>(gameId));
 
-            var model = new CreateOrUpdateGameModel
-            {
-                Id = game.Id,
-                Name = game.Name,
-                Data = game.Data,
-                CategoryId = game.CategoryId,
-                Description = game.Description,
-                TotalDislike = game.TotalDislike,
-                TotalLike = game.TotalLike,
-                TotalPlay = game.TotalPlay,
+            //var model = new GameDto
+            //{
+            //    Id = game.Id,
+            //    Name = game.Name,
+            //    Data = game.Data,
+            //    CategoryId = game.CategoryId,
+            //    Description = game.Description,
+            //    TotalDislike = game.TotalDislike,
+            //    TotalLike = game.TotalLike,
+            //    TotalPlay = game.TotalPlay,
 
-            };
-            return PartialView("_EditModal", model);
+            //};
+            return PartialView("_EditModal", game);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] CreateGameDto input)
+        {
+            if (input.ThumbnailFromFile != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await input.ThumbnailFromFile.CopyToAsync(memoryStream);
+                    input.Thumbnail = memoryStream.ToArray();
+                }
+            }
+
+            // Xử lý Data
+            if (input.DataFromFile != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await input.DataFromFile.CopyToAsync(memoryStream);
+                    input.Data = memoryStream.ToArray();
+                    input.ContentType = input.DataFromFile.ContentType; // Lưu MIME Type
+                }
+            }
+
+
+            // Gọi service để lưu dữ liệu
+            var result = await _gameAppService.CreateAsync(input);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromForm] GameDto input)
+        {
+            if (input.ThumbnailFromFile != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await input.ThumbnailFromFile.CopyToAsync(memoryStream);
+                    input.Thumbnail = memoryStream.ToArray();
+                }
+            }
+
+            // Xử lý Data
+            if (input.DataFromFile != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await input.DataFromFile.CopyToAsync(memoryStream);
+                    input.Data = memoryStream.ToArray();
+                    input.ContentType = input.DataFromFile.ContentType; // Lưu MIME Type
+                }
+            }
+
+
+            // Gọi service để lưu dữ liệu
+            var result = await _gameAppService.UpdateAsync(input);
+
+            return Ok(result);
         }
 
 
@@ -58,7 +119,7 @@ namespace GameXuaVN.Web.Controllers
         {
             return View();
         }
-    
+
         public async Task<IActionResult> GetFile(int id)
         {
             var dto = await _gameAppService.GetAsync(new EntityDto<int>(id));

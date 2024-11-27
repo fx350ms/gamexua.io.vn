@@ -4,7 +4,37 @@
         _$modal = $('#GameCreateModal'),
         _$form = _$modal.find('form'),
         _$table = $('#GamesTable');
-   
+    create = function (input, ajaxParams) {
+        var formData = new FormData();
+
+        // Thêm dữ liệu từ input vào formData
+        for (var key in input) {
+            if (input.hasOwnProperty(key)) {
+                formData.append(key, input[key]);
+            }
+        }
+
+        // Lấy file từ các input type="file" và thêm vào formData
+        var thumbnailFile = $('input[name="ThumbnailFromFile"]')[0].files[0];
+        if (thumbnailFile) {
+            formData.append('ThumbnailFromFile', thumbnailFile);
+        }
+
+        var dataFile = $('input[name="DataFromFile"]')[0].files[0];
+        if (dataFile) {
+            formData.append('DataFromFile', dataFile);
+        }
+
+        return abp.ajax($.extend(true, {
+            url: abp.appPath + 'Game/Create',
+            type: 'POST',
+            processData: false, // Không xử lý dữ liệu form thành chuỗi
+            contentType: false, // Đặt content type là multipart/form-data
+            data: formData
+        }, ajaxParams));
+    };
+
+  
 
     var _$gamesTable = _$table.DataTable({
         paging: true,
@@ -111,7 +141,7 @@
         game.Page = game.Name.substring(0, 1);
 
         abp.ui.setBusy(_$modal);
-        _gameService.create(game).done(function () {
+        create(game).done(function () {
             _$modal.modal('hide');
             _$form[0].reset();
             abp.notify.info(l('SavedSuccessfully'));

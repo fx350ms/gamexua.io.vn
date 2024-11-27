@@ -4,6 +4,7 @@ using Abp.Auditing;
 using Abp.Authorization.Users;
 using Abp.Extensions;
 using GameXuaVN.Validation;
+using Microsoft.AspNetCore.Http;
 
 namespace GameXuaVN.Web.Models.Games
 {
@@ -15,7 +16,12 @@ namespace GameXuaVN.Web.Models.Games
         public int TotalPlay { get; set; }
         public int TotalLike { get; set; }
         public int TotalDislike { get; set; }
+
+        public IFormFile ThumbnailFromFile { get; set; }
+
         public byte[] Thumbnail { get; set; }
+
+        public IFormFile DataFromFile { get; set; }
 
         // Dữ liệu ảnh (binary)
         public byte[] Data { get; set; }

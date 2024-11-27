@@ -5,6 +5,7 @@ using GameXuaVN.Web.Models.Games;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using System.Collections.Generic;
 
 namespace GameXuaVN.Web.Controllers
 {
@@ -51,7 +52,7 @@ namespace GameXuaVN.Web.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> ListItem(string page = "#" )
+        public async Task<IActionResult> ListItem(string page = "#")
         {
             var dto = await _gameAppService.GetListAsync(new ListGameRequestDto()
             {
@@ -116,6 +117,31 @@ namespace GameXuaVN.Web.Controllers
 
             // Trả về file ROM với MIME Type và tên file
             return File(game.Data, "application/octet-stream", $"{game.Name}.nes");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string query, int page = 1)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                return View(new List<GameDto>()); // Trả về danh sách rỗng nếu không có query
+            }
+
+            // Tìm kiếm trò chơi dựa trên query
+            var results = await _gameAppService.GetAllAsync(new PagedGameResultRequestDto()
+            {
+                PageName = string.Empty,
+                CategoryId = 1,
+                Keyword = query,
+                MaxResultCount = 100,
+                SkipCount = (page - 1) * 100,
+            });
+            var model = new GameListViewModel()
+            {
+                Data = results.Items
+            };
+            return View(model);
         }
     }
 }

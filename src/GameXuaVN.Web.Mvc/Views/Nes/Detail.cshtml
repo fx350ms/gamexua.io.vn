@@ -161,13 +161,29 @@
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-3">
                                     <div class="small-box bg-game-card text-center h-100">
                                         <div class="inner">
+                                            <!-- Hiển thị Thumbnail -->
                                             <img src="@item.ThumbnailBase64" alt="@item.Title" class="img-fluid" style="max-height: 200px; object-fit: cover;" />
                                         </div>
+
+                                        <!-- Tên Game -->
                                         <a href="@Url.Action("Detail", "Nes", new { id = item.Id, title = item.Url })" class="d-block text-decoration-none">
                                             <p class="game-name mb-2">@item.Name</p>
                                         </a>
-                                        <a href="@Url.Action("Detail", "Nes", new { id = item.Id, title = item.Url })" class="small-box-footer btn btn-primary">
+
+                                        <!-- Hiển thị tổng số lượt chơi -->
+                                        <span class="game-total-play   text-white-90 mb-2">
+                                            @L("TotalPlay"): @item.TotalPlay
+                                        </span>
+
+
+                                        <!-- Button "Play" -->
+                                        <a href="@Url.Action("Detail", "Nes", new { id = item.Id, title = item.Url })" class="small-box-footer btn btn-primary mb-2">
                                             @L("Play") <i class="fas fa-gamepad"></i>
+                                        </a>
+
+                                        <!-- Button "Tải ROM" -->
+                                        <a href="@Url.Action("DownloadRom", "Nes", new { id = item.Id })" class="btn btn-secondary">
+                                            @L("DownloadROM") <i class="fas fa-download"></i>
                                         </a>
                                     </div>
                                 </div>

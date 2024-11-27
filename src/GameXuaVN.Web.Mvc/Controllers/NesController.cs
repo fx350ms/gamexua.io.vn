@@ -103,5 +103,19 @@ namespace GameXuaVN.Web.Controllers
             var dto = await _gameAppService.GetAsync(new EntityDto<int>(id));
             return File(dto.Data, "application/octet-stream");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadRom(int id)
+        {
+            var game = await _gameAppService.GetAsync(new EntityDto<int>(id));
+
+            if (game == null || game.Data == null)
+            {
+                return NotFound();
+            }
+
+            // Trả về file ROM với MIME Type và tên file
+            return File(game.Data, "application/octet-stream", $"{game.Name}.nes");
+        }
     }
 }

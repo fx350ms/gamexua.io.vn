@@ -12,6 +12,8 @@ namespace GameXuaVN.EntityFrameworkCore
         /* Define a DbSet for each entity of the application */
         public DbSet<Game> Games { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Room> Rooms { get; set; }
+        public DbSet<RoomParticipant> RoomParticipants { get; set; }
 
         public GameXuaVNDbContext(DbContextOptions<GameXuaVNDbContext> options)
             : base(options)

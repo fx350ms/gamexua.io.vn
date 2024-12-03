@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Domain.Repositories;
+using Abp.Runtime.Session;
 using GameXuaVN.Entities;
 using GameXuaVN.Rooms.Dto;
 using System.Collections.Generic;
@@ -34,9 +35,20 @@ namespace GameXuaVN.Rooms
 
         public override Task<RoomDto> CreateAsync(CreateRoomDto input)
         {
-            input.CurrentPlayers = 1;
-            input.IsOpen = true;
-            return base.CreateAsync(input);
+            try
+            {
+                input.CurrentPlayers = 1;
+                input.IsOpen = true;
+                input.HostPlayerId = AbpSession.GetUserId();
+
+                return base.CreateAsync(input);
+            }
+            catch (System.Exception ex)
+            {
+
+                return null;
+            }
+           
         }
 
         public async Task<List<RoomDto>> GetAllRooms()

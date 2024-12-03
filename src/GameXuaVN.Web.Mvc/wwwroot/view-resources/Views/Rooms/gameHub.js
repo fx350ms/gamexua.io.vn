@@ -1,15 +1,20 @@
 ﻿var gameHub = new signalR.HubConnectionBuilder().withUrl("/gameHub").build();
 
-gameHub.on('UserCountUpdated', function (NumberOfUsers) {
-    $('#txt-user-online').html(NumberOfUsers + ' người đang online.');
-});
-
 
 gameHub.start().then(function () {
     console.log("Done");
 }).catch(function (err) {
     console.log(err);
 });
+
+
+gameHub.on('UserCountUpdated', function (NumberOfUsers) {
+    $('#txt-user-online').html(NumberOfUsers + ' người đang online.');
+});
+
+
+
+
 
 //gameHub.on('roomCreated', function (roomId, roomName) {
 //    alert(`Room created: ${roomName} (ID: ${roomId})`);

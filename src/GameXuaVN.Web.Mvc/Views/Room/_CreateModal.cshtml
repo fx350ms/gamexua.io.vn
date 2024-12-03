@@ -1,84 +1,52 @@
 ﻿﻿@using GameXuaVN.Web.Models.Common.Modals
 @using GameXuaVN.Web.Models.Games
+@using GameXuaVN.Rooms.Dto
 
+@model CreateRoomDto
 @{
     Layout = null;
 }
-<div class="modal fade" id="GameCreateModal" tabindex="-1" role="dialog" aria-labelledby="GameCreateModalLabel" data-backdrop="static">
+
+<div class="modal fade" id="RoomCreateModal" tabindex="-1" role="dialog" aria-labelledby="RoomCreateModalLabel" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CreateNewGame")))
-            <form name="gameCreateForm" role="form" class="form-horizontal" enctype="multipart/form-data">
+            @await Html.PartialAsync("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CreateNewRoom")))
+            <form name="roomCreateForm" role="form" class="form-horizontal" enctype="multipart/form-data">
                 <div class="modal-body">
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" role="tab" href="#create-game-details">@L("GameDetails")</a>
+                            <a class="nav-link active" data-toggle="tab" role="tab" href="#create-room-details">@L("Details")</a>
                         </li>
                     </ul>
                     <div class="tab-content mt-4">
-                        <div role="tabpanel" class="tab-pane container active" id="create-game-details">
+                        <div role="tabpanel" class="tab-pane container active" id="create-room-details">
 
                             <div class="form-group row required">
-                                <label class="col-md-3 col-form-label">@L("Name")</label>
+                                <label class="col-md-3 col-form-label">@L("RoomName")</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="Name" required maxlength="180">
+                                    <input type="text" class="form-control" name="RoomName" required maxlength="100" placeholder="@L("PlaceRoomName")">
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">@L("Description")</label>
+                            <div class="form-group row required">
+                                <label class="col-md-3 col-form-label">@L("GameId")</label>
                                 <div class="col-md-9">
-                                    <textarea class="form-control" name="Description" rows="5"></textarea>
+                                    <input type="text" class="form-control" name="GameId" required maxlength="100" placeholder="@L("PlaceGameId")">
                                 </div>
                             </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">@L("TotalPlay")</label>
-                                <div class="col-md-9">
-                                    <input type="number" class="form-control" name="TotalPlay" value="0" min="0">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">@L("TotalLike")</label>
-                                <div class="col-md-9">
-                                    <input type="number" class="form-control" name="TotalLike" value="0" min="0">
-                                </div>
-                            </div>
-
-                            <!-- Tổng lượt không thích -->
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">@L("TotalDislike")</label>
-                                <div class="col-md-9">
-                                    <input type="number" class="form-control" name="TotalDislike" value="0" min="0">
-                                </div>
-                            </div>
-
-                            <!-- Ảnh thumbnail -->
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">@L("Thumbnail")</label>
-                                <div class="col-md-9">
-                                    <input type="file" class="form-control-file" name="ThumbnailFromFile" accept="image/*">
-                                </div>
-                            </div>
-
-                            <!-- Dữ liệu ảnh -->
-                            <div class="form-group row">
-                                <label class="col-md-3 col-form-label">@L("Data")</label>
-                                <div class="col-md-9">
-                                    <input type="file" class="form-control-file" name="DataFromFile" accept="application/octet-stream">
-                                </div>
-                            </div>
-
-
-                            <!-- ID danh mục -->
                             <div class="form-group row required">
                                 <label class="col-md-3 col-form-label">@L("CategoryId")</label>
                                 <div class="col-md-9">
-                                    <select class="form-control">
+                                    <select class="form-control" name="CategoryId" required>
                                         <option value="1">NES</option>
-                                        <option value="2">PS1</option>
                                     </select>
                                 </div>
                             </div>
-
+                            <div class="form-group row required">
+                                <label class="col-md-3 col-form-label">@L("PasswordRoom")</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="Password" required maxlength="100">
+                                </div>
+                            </div>
 
                         </div>
                     </div>

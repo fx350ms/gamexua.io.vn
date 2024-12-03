@@ -17,6 +17,7 @@ using GameXuaVN.Web.Resources;
 using Abp.AspNetCore.SignalR.Hubs;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
+using GameXuaVN.Web.Hubs;
 
 namespace GameXuaVN.Web.Startup
 {
@@ -93,6 +94,9 @@ namespace GameXuaVN.Web.Startup
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
+
+                endpoints.MapHub<GameHub>("/gameHub");
+
                 // SEO-friendly route for games
                 endpoints.MapControllerRoute(
                     name: "seoGameRoute",

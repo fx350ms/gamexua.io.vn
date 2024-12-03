@@ -13,8 +13,8 @@
 
 <div class="content-wrapper">
     <div class="col-lg-9 col-md-9">
-        <h2 class="mb-2">Danh sách room</h2>
-
+        <h2 class="mb-2">Danh sách room </h2>
+        <h2 class="mb-2" id="txt-user-online">  </h2>
         @if (User.Identity.IsAuthenticated)
         {
             <button type="button" onclick="showCreateRoomModal()">Create Room</button>
@@ -62,7 +62,7 @@
 </div>
 
 <!-- Modal tạo room -->
-<div id="createRoomModal" style="display:none;">
+@* <div id="createRoomModal" style="display:none;">
     <form id="createRoomForm" method="post" action="@Url.Action("CreateRoom", "Rooms")">
         <h3>Create Room</h3>
         <label for="RoomName">Room Name:</label>
@@ -72,7 +72,7 @@
         <button type="submit">Create</button>
         <button type="button" onclick="hideCreateRoomModal()">Cancel</button>
     </form>
-</div>
+</div> *@
 @section scripts
 {
     <script src="~/view-resources/views/rooms/gamehub.js"></script>

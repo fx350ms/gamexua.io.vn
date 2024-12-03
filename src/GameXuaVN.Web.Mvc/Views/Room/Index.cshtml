@@ -1,0 +1,106 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using Abp.Application.Services.Dto;
+@using GameXuaVN.Rooms.Dto;
+@{
+    Layout = "~/views/shared/frontends/_layout.cshtml";
+}
+
+
+@model IReadOnlyList<RoomDto>
+<!-- Button tạo room -->
+
+<div class="content-wrapper">
+    <div class="col-lg-9 col-md-9">
+        <h2 class="mb-2">Danh sách room</h2>
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <button type="button" onclick="showCreateRoomModal()">Create Room</button>
+        }
+        else
+        {
+            <p>You must be logged in to create or join a room.</p>
+        }
+        <!-- Bảng hiển thị danh sách room -->
+        <table border="1" style="width:100%; text-align: center; margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>Room Name</th>
+                    <th>Host</th>
+                    <th>Players</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var room in Model)
+                    {
+                        <tr>
+                            <td>@room.RoomName</td>
+                            <td>@room.HostPlayer</td>
+                            <td>@room.CurrentPlayers / @room.MaxPlayers</td>
+                            <td>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <button onclick="joinRoom(@room.Id)">Join Room</button>
+                                }
+                                else
+                                {
+                                    <span>Login to join</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<!-- Modal tạo room -->
+<div id="createRoomModal" style="display:none;">
+    <form id="createRoomForm" method="post" action="@Url.Action("CreateRoom", "Rooms")">
+        <h3>Create Room</h3>
+        <label for="RoomName">Room Name:</label>
+        <input type="text" id="RoomName" name="RoomName" required />
+        <label for="MaxPlayers">Max Players:</label>
+        <input type="number" id="MaxPlayers" name="MaxPlayers" min="1" max="10" required />
+        <button type="submit">Create</button>
+        <button type="button" onclick="hideCreateRoomModal()">Cancel</button>
+    </form>
+</div>
+@section scripts
+{
+    <script src="~/view-resources/views/rooms/gamehub.js"></script>
+    <script>
+        // Hiển thị modal tạo room
+        function showCreateRoomModal() {
+            document.getElementById("createRoomModal").style.display = "block";
+        }
+
+        // Ẩn modal tạo room
+        function hideCreateRoomModal() {
+            document.getElementById("createRoomModal").style.display = "none";
+        }
+
+        // Gửi yêu cầu tham gia room
+        function joinRoom(roomId) {
+            const form = document.createElement("form");
+            form.method = "post";
+            form.action = "@Url.Action("JoinRoom", "Rooms")";
+
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "RoomId";
+            input.value = roomId;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+}

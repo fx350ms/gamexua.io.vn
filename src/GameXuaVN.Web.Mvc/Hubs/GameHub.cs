@@ -2,8 +2,10 @@
 using Abp.Domain.Repositories;
 using Abp.Runtime.Session;
 using GameXuaVN.Entities;
-using Microsoft.AspNet.SignalR;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
+using System;
+
 namespace GameXuaVN.Web.Hubs
 {
     [AbpAuthorize]
@@ -12,6 +14,8 @@ namespace GameXuaVN.Web.Hubs
         private readonly IRepository<Room, long> _roomRepository;
         private readonly IRepository<RoomParticipant, long> _participantRepository;
         private readonly IAbpSession _abpSession;
+        public static int NumberOfUsers = 0;
+
 
         public GameHub(
             IRepository<Room, long> roomRepository,
@@ -22,137 +26,135 @@ namespace GameXuaVN.Web.Hubs
             _participantRepository = participantRepository;
             _abpSession = abpSession;
         }
-
-        public override Task OnConnected()
+        public override Task OnConnectedAsync()
         {
-            var userId = _abpSession.UserId;
-            if (!userId.HasValue)
-            {
-                throw new HubException("You must be logged in to connect to this hub.");
-            }
-
-            return base.OnConnected();
+            NumberOfUsers++;
+            Clients.All.SendAsync("UserCountUpdated", NumberOfUsers);
+            return base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnected(bool stopCalled)
+        public override Task OnDisconnectedAsync(Exception exception)
         {
-            return base.OnDisconnected(stopCalled);
+            NumberOfUsers--;
+            Clients.All.SendAsync("UserCountUpdated", NumberOfUsers);
+            return base.OnDisconnectedAsync(exception);
         }
 
-        // Tạo room
-        public async Task CreateRoom(string roomName, int maxPlayers)
-        {
-            var userId = _abpSession.UserId;
-            var userName = Context.User.Identity.Name;
 
-            if (!userId.HasValue)
-            {
-                throw new HubException("You must be logged in to create a room.");
-            }
+        //// Tạo room
+        //public async Task CreateRoom(string roomName, int maxPlayers)
+        //{
+        //    var userId = _abpSession.UserId;
+        //    var userName = Context.User.Identity.Name;
 
-            // Tạo room
-            var room = new Room
-            {
-                RoomName = roomName,
-                HostPlayer = userName,
-                MaxPlayers = maxPlayers,
-                CurrentPlayers = 1,
-                IsOpen = true
-            };
+        //    if (!userId.HasValue)
+        //    {
+        //        throw new HubException("You must be logged in to create a room.");
+        //    }
 
-            await _roomRepository.InsertAsync(room);
+        //    // Tạo room
+        //    var room = new Room
+        //    {
+        //        RoomName = roomName,
+        //        HostPlayer = userName,
+        //        MaxPlayers = maxPlayers,
+        //        CurrentPlayers = 1,
+        //        IsOpen = true
+        //    };
 
-            // Thêm người tạo room vào danh sách participants
-            await _participantRepository.InsertAsync(new RoomParticipant
-            {
-                RoomId = room.Id,
-                UserId = userId.Value,
-                UserName = userName,
-                IsReady = false
-            });
+        //    await _roomRepository.InsertAsync(room);
 
-            // Thông báo cho client
-            await Clients.Caller.roomCreated(room.Id, roomName);
-        }
+        //    // Thêm người tạo room vào danh sách participants
+        //    await _participantRepository.InsertAsync(new RoomParticipant
+        //    {
+        //        RoomId = room.Id,
+        //        UserId = userId.Value,
+        //        UserName = userName,
+        //        IsReady = false
+        //    });
 
-        // Tham gia room
-        public async Task JoinRoom(int roomId)
-        {
-            var userId = _abpSession.UserId;
-            var userName = Context.User.Identity.Name;
+        //    // Thông báo cho client
+        //    await Clients.Caller.roomCreated(room.Id, roomName);
+        //}
 
-            if (!userId.HasValue)
-            {
-                throw new HubException("You must be logged in to join a room.");
-            }
+        //// Tham gia room
+        //public async Task JoinRoom(int roomId)
+        //{
+        //    var userId = _abpSession.UserId;
+        //    var userName = Context.User.Identity.Name;
 
-            var room = await _roomRepository.GetAsync(roomId);
+        //    if (!userId.HasValue)
+        //    {
+        //        throw new HubException("You must be logged in to join a room.");
+        //    }
 
-            if (room.CurrentPlayers >= room.MaxPlayers || !room.IsOpen)
-            {
-                throw new HubException("Room is full or closed.");
-            }
+        //    var room = await _roomRepository.GetAsync(roomId);
 
-            // Thêm người chơi vào danh sách participants
-            await _participantRepository.InsertAsync(new RoomParticipant
-            {
-                RoomId = roomId,
-                UserId = userId.Value,
-                UserName = userName,
-                IsReady = false
-            });
+        //    if (room.CurrentPlayers >= room.MaxPlayers || !room.IsOpen)
+        //    {
+        //        throw new HubException("Room is full or closed.");
+        //    }
 
-            room.CurrentPlayers++;
-            if (room.CurrentPlayers == room.MaxPlayers)
-            {
-                room.IsOpen = false;
-            }
+        //    // Thêm người chơi vào danh sách participants
+        //    await _participantRepository.InsertAsync(new RoomParticipant
+        //    {
+        //        RoomId = roomId,
+        //        UserId = userId.Value,
+        //        UserName = userName,
+        //        IsReady = false
+        //    });
 
-            await _roomRepository.UpdateAsync(room);
+        //    room.CurrentPlayers++;
+        //    if (room.CurrentPlayers == room.MaxPlayers)
+        //    {
+        //        room.IsOpen = false;
+        //    }
 
-            // Thông báo cho tất cả client trong room
-            await Groups.Add(Context.ConnectionId, roomId.ToString());
-            await Clients.Group(roomId.ToString()).playerJoined(userName);
-        }
+        //    await _roomRepository.UpdateAsync(room);
 
-        // Rời room
-        public async Task LeaveRoom(int roomId)
-        {
-            var userId = _abpSession.UserId;
+        //    // Thông báo cho tất cả client trong room
+        //    await Groups.Add(Context.ConnectionId, roomId.ToString());
+        //    await Clients.Group(roomId.ToString()).playerJoined(userName);
+        //}
 
-            if (!userId.HasValue)
-            {
-                throw new HubException("You must be logged in to leave a room.");
-            }
+        //// Rời room
+        //public async Task LeaveRoom(int roomId)
+        //{
+        //    var userId = _abpSession.UserId;
 
-            var participant = await _participantRepository.FirstOrDefaultAsync(p => p.RoomId == roomId && p.UserId == userId);
-            if (participant == null)
-            {
-                throw new HubException("You are not part of this room.");
-            }
+        //    if (!userId.HasValue)
+        //    {
+        //        throw new HubException("You must be logged in to leave a room.");
+        //    }
 
-            await _participantRepository.DeleteAsync(participant);
+        //    var participant = await _participantRepository.FirstOrDefaultAsync(p => p.RoomId == roomId && p.UserId == userId);
+        //    if (participant == null)
+        //    {
+        //        throw new HubException("You are not part of this room.");
+        //    }
 
-            var room = await _roomRepository.GetAsync(roomId);
-            room.CurrentPlayers--;
+        //    await _participantRepository.DeleteAsync(participant);
 
-            if (room.CurrentPlayers == 0)
-            {
-                // Đóng room nếu không còn ai
-                room.IsOpen = false;
-            }
+        //    var room = await _roomRepository.GetAsync(roomId);
+        //    room.CurrentPlayers--;
 
-            await _roomRepository.UpdateAsync(room);
+        //    if (room.CurrentPlayers == 0)
+        //    {
+        //        // Đóng room nếu không còn ai
+        //        room.IsOpen = false;
+        //    }
 
-            // Thông báo cho client
-            await Groups.Remove(Context.ConnectionId, roomId.ToString());
-            await Clients.Group(roomId.ToString()).playerLeft(Context.User.Identity.Name);
-        }
+        //    await _roomRepository.UpdateAsync(room);
 
-        // Đồng bộ trạng thái game
-        public async Task SyncGameState(int roomId, string gameState)
-        {
-            await Clients.Group(roomId.ToString()).receiveGameState(gameState);
-        }
+        //    // Thông báo cho client
+        //    await Groups.Remove(Context.ConnectionId, roomId.ToString());
+        //    await Clients.Group(roomId.ToString()).playerLeft(Context.User.Identity.Name);
+        //}
+
+        //// Đồng bộ trạng thái game
+        //public async Task SyncGameState(int roomId, string gameState)
+        //{
+        //    await Clients.Group(roomId.ToString()).receiveGameState(gameState);
+        //}
     }
 }

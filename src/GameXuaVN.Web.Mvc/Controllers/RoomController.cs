@@ -19,8 +19,10 @@ namespace GameXuaVN.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var roomsList = await _roomAppService.GetAllAsync(new Rooms.Dto.PagedRoomResultRequestDto() { });
-            return View(roomsList.Items);
+            //var roomsList = await _roomAppService.GetAllAsync(new Rooms.Dto.PagedRoomResultRequestDto() { });
+            //return View(roomsList.Items);
+
+            return View();
         }
 
     }

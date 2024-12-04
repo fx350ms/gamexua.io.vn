@@ -9,10 +9,15 @@
 }
 
 @model RoomPlayingGameModel
-<h2 id="total-online"></h2>
-<div style="width:100%;height:100%;max-width:100%; min-height:720px">
-    <div id="game"></div>
+<div class="content-wrapper">
+    <div class="col-lg-9 col-md-9">
+        <h2 id="total-online"></h2>
+        <div style="width:100%;height:100%;max-width:100%; min-height:720px">
+            <div id="game"></div>
+        </div>
+    </div>
 </div>
+
 <script>
     EJS_player = "#game";
     EJS_core = "nes";
@@ -27,6 +32,8 @@
     EJS_oldCores = true;
     EJS_netplayUrl = "/gameHub";
 </script>
+
+
 <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
 
 @* <script src="~/view-resources/views/rooms/gamehub.js"></script> *@
@@ -48,7 +55,6 @@
 
 
     gameHub.on('UserCountUpdated', function (NumberOfUsers) {
-        debugger;
         $('#total-online').html(NumberOfUsers);
         numberOfUsers = NumberOfUsers;
         if (numberOfUsers == 1) {
@@ -93,6 +99,7 @@
     }
 
     function joinRoom(roomId) {
+        debugger;
         const roomData = {
             roomId: roomId,
             userId: userId,
@@ -100,7 +107,7 @@
             extra: {
                 domain: "example.com", // Thông tin bổ sung (có thể tuỳ chỉnh)
                 gameId: 6,
-            
+
             },
             password: "",
             maxParticipantsAllowed: 2,

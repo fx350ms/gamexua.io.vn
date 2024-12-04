@@ -1,6 +1,5 @@
 ﻿var gameHub = new signalR.HubConnectionBuilder().withUrl("/gameHub").build();
 
-
 gameHub.start().then(function () {
     console.log("Done");
 }).catch(function (err) {

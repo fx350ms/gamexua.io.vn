@@ -8,6 +8,7 @@ using GameXuaVN.Web.Models.Rooms;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Abp.Runtime.Security;
 namespace GameXuaVN.Web.Controllers
 {
 
@@ -34,7 +35,7 @@ namespace GameXuaVN.Web.Controllers
         {
             var dto = await _roomAppService.GetAsync(new EntityDto<long>(id));
             var gameDto = await _gameAppService.GetAsync(new EntityDto<int>(dto.GameId));
-
+            
             await _gameAppService.UpdateAsync(gameDto);
 
             var model = new RoomPlayingGameModel()
@@ -44,6 +45,11 @@ namespace GameXuaVN.Web.Controllers
                 Players = new List<string>() { User.Identity.Name }
             };
             return View(model);
+        }
+
+        public async Task<IActionResult> Play(long id)
+        {
+            return View();
         }
 
     }

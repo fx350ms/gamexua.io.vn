@@ -7,7 +7,6 @@
     Layout = "~/views/shared/frontends/_layout.cshtml";
 }
 
-
 <div class="content-wrapper">
     <div class="col-lg-9 col-md-9">
 
@@ -79,14 +78,14 @@
 @section scripts
 {
     <script src="~/view-resources/views/rooms/index.js"></script>
-    <script>
+    @* <script>
         var gameHub = new signalR.HubConnectionBuilder().withUrl("/gameHub").build();
 
             gameHub.on('RoomStatusUpdate', function (roomId, total) {
             $('[data-row-id="'+roomId+'"]').html(2);
         });
 
-    </script>
+    </script> *@
     @*   <script src="~/view-resources/views/rooms/gamehub.js"></script>
         <script>
             // Hiển thị modal tạo room

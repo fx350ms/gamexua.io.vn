@@ -1,0 +1,50 @@
+﻿@{
+    ViewData["Title"] = "Room Management";
+    Layout = "~/views/shared/frontends/_layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <script src="https://cdn.socket.io/4.5.1/socket.io.min.js"></script>
+    
+    <script src="~/view-resources/views/rooms/room-management.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #message-container {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Room Management</h1>
+
+    <form id="room-form">
+        <label for="room-id">Room ID:</label>
+        <input type="text" id="room-id" placeholder="Enter room ID" required><br><br>
+
+        <label for="user-id">User ID:</label>
+        <input type="text" id="user-id" placeholder="Enter your user ID" required><br><br>
+
+        <label for="room-name">Room Name:</label>
+        <input type="text" id="room-name" placeholder="Enter room name" required><br><br>
+
+        <button type="button" id="manage-room-button">Create or Join Room</button>
+    </form>
+
+    <div id="message-container">
+        <h3>Messages:</h3>
+    </div>
+</body>
+</html>

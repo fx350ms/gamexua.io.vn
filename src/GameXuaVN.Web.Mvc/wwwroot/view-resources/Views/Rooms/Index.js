@@ -1,4 +1,22 @@
-﻿(function ($) {
+﻿const gameHub = new signalR.HubConnectionBuilder().withUrl("/gameHub").build();
+
+gameHub.start().then(function () {
+    console.log("Done");
+}).catch(function (err) {
+    console.log(err);
+});
+ 
+
+gameHub.on('onRoomCreated', function (roomId, gameId, roomName, gameName) {
+    abp.notify.info('Room created: ' + roomName);
+});
+
+function createRoom(roomId, gameId, roomName, gameName) {
+    gameHub.invoke('CreateRoom', roomId, gameId, roomName, gameName);
+}
+
+
+(function ($) {
     var _roomService = abp.services.app.room,
         l = abp.localization.getSource('GameXuaVN'),
         _$modal = $('#RoomCreateModal'),
@@ -79,9 +97,7 @@
                 data: 'currentPlayers',
                 sortable: false,
                 render: (data, type, row, meta) => {
-
-                    return
-                    '<p data-row-id="' + ${ row.id } +'"> ' + ${ row.currentPlayers } +' </p>';
+                    return '<p data-row-id="' + row.id + '"> ' + row.currentPlayers + ' </p>'
                 }
             },
 
@@ -114,10 +130,14 @@
 
         abp.ui.setBusy(_$modal);
         _roomService.create(room).done(function () {
+
+            createRoom(1, 6, '', '');
             _$modal.modal('hide');
             _$form[0].reset();
             abp.notify.info(l('SavedSuccessfully'));
             _$roomsTable.ajax.reload();
+
+
         }).always(function () {
             abp.ui.clearBusy(_$modal);
         });

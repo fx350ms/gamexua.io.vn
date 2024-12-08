@@ -19,6 +19,7 @@
 </div>
 
 <script>
+
     EJS_player = "#game";
     EJS_core = "nes";
     EJS_gameName = "@Model.Game.Name";
@@ -34,93 +35,175 @@
 </script>
 
 
-<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+@* <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script> *@
 
 @* <script src="~/view-resources/views/rooms/gamehub.js"></script> *@
 
 <script src="~/libs/signalr/dist/browser/signalr.js"></script>
 <script>
     var numberOfUsers = 0;
-
+    const playerId = '@Model.PlayerId';
     const userId = '@User.Identity.GetUserId()';
     const userName = '@User.Identity.Name';
+    const roomId = EJS_gameID;
+    // Kết nối SignalR
+    const gameHub = new signalR.HubConnectionBuilder()
+        .withUrl("/gameHub") // Đường dẫn tới Hub SignalR
+        .build();
 
-    const gameHub = new signalR.HubConnectionBuilder().withUrl("/gameHub").build();
+    // Biến lưu thông tin phòng
+    let currentRoomId = null;
 
-    gameHub.start().then(function () {
-        console.log("Done");
-    }).catch(function (err) {
-        console.log(err);
-    });
-
-
-    gameHub.on('UserCountUpdated', function (NumberOfUsers) {
-        $('#total-online').html(NumberOfUsers);
-        numberOfUsers = NumberOfUsers;
-        if (numberOfUsers == 1) {
-            createRoom('1', 'Chơi contra');
-        }
-        else {
-            joinRoom('1');
-        }
-
-    });
-
-    gameHub.on("extra-data-updated", function (userId, extraData) {
-        if (!userId) {
-            console.log("Global extra data updated:", extraData);
-        } else {
-            console.log(`Extra data updated for user ${userId}:`, extraData);
-        }
-    });
-
-
-    // Hàm tạo room
-    function createRoom(roomId, roomName) {
-        const roomData = {
-            roomId: roomId,
-            userId: userId,
-            roomName: roomName,
-            extra: {
-                domain: "example.com", // Thông tin bổ sung (có thể tuỳ chỉnh)
-                gameId: 6,
-                roomName: roomName
-            },
-            password: "",
-            maxParticipantsAllowed: 2,
-        };
-
-
-        gameHub.invoke("OpenRoom", roomData).then(function () {
-            console.log("Room created successfully:", roomName);
-        }).catch(function (err) {
-            console.log("Error creating room:", err);
+    // Kết nối tới SignalR Hub
+     gameHub.start()
+        .then(function () {
+            console.log("Connected to GameHub!");
+            createOrJoin();
+        })
+        .catch(function (err) {
+            console.error("Error connecting to GameHub:", err);
         });
+
+    // Lắng nghe sự kiện cập nhật số người dùng từ server
+    gameHub.on("UserCountUpdated", function (userCount) {
+        document.getElementById("total-online").innerText = `Total Online: ${userCount}`;
+    });
+
+    // Lắng nghe sự kiện người dùng tham gia phòng
+    gameHub.on("user-connected", function (userId) {
+        console.log(`User connected: ${userId}`);
+    });
+
+    // Lắng nghe sự kiện người dùng rời phòng
+    gameHub.on("user-disconnected", function (userId) {
+        console.log(`User disconnected: ${userId}`);
+    });
+
+    // Lắng nghe sự kiện cập nhật dữ liệu bổ sung
+    gameHub.on("extra-data-updated", function (userId, data) {
+        console.log(`Extra data updated for user ${userId}:`, data);
+    });
+
+    // Lắng nghe tin nhắn Netplay
+    gameHub.on("netplay", function (message) {
+        console.log("Netplay message received:", message);
+    });
+
+    // Hàm tạo hoặc tham gia phòng
+     function createOrJoin() {
+        if (!roomId) {
+            console.error("Room ID is undefined or invalid.");
+            return;
+        }
+
+        gameHub.invoke("CheckPresence", roomId)
+            .then(function () {
+             
+            })
+            .catch(function (err) {
+                console.error("Error invoking CheckPresence:", err);
+            });
     }
 
+        gameHub.on("check-presence-callback", function (roomExists, roomId, userCount) {
+            if (roomExists) {
+                
+                console.log(`${userCount} user(s) in room ${roomId}, joining room...`);
+                joinRoom(roomId);
+            } else {
+                console.log(`Room ${roomId} does not exist, opening...`);
+                openRoom(roomId);
+            }
+        });
+
+         gameHub.on("open-room-callback", function (roomExists, roomId, userCount) {
+            if (roomExists) {
+                console.log(`${userCount} user(s) in room ${roomId}, joining room...`);
+                joinRoom(roomId);
+            } else {
+                console.log(`Room ${roomId} does not exist, opening...`);
+                openRoom(roomId);
+            }
+        });
+
+      
+    // Hàm mở phòng
+    function openRoom(roomId) {
+        const roomData = {
+            SessionId: roomId,
+            UserId: userId,
+            Password: "", // Nếu cần mật khẩu, có thể thêm vào đây
+            MaxParticipantsAllowed: 10, // Số người tối đa trong phòng
+            CoreVer: 1, // Phiên bản Core
+            Extra: {
+                Domain: "example.com",
+                GameId: parseInt(EJS_gameID),
+                RoomName: EJS_gameName
+            }
+        };
+
+        gameHub.invoke("OpenRoom", roomData)
+            .then(function () {
+                console.log(`Room ${roomId} opened successfully.`);
+                currentRoomId = roomId;
+                isRoomOwner = true;
+            })
+            .catch(function (err) {
+                console.error("Error opening room:", err);
+            });
+    }
+
+    // Hàm tham gia phòng
     function joinRoom(roomId) {
-        debugger;
-        const roomData = {
-            roomId: roomId,
-            userId: userId,
-            sessionId: 1,
-            extra: {
-                domain: "example.com", // Thông tin bổ sung (có thể tuỳ chỉnh)
-                gameId: 6,
-
-            },
-            password: "",
-            maxParticipantsAllowed: 2,
+        const joinData = {
+            SessionId: roomId,
+            UserId: userId,
+            Password: "", // Nếu cần mật khẩu, có thể thêm vào đây
+            Extra: {
+                Domain: "example.com",
+                GameId: parseInt(EJS_gameID),
+                RoomName: EJS_gameName
+            }
         };
 
-        gameHub.invoke("JoinRoom", roomData).then(function () {
-            console.log("Joined room successfully:", roomId);
-        }).catch(function (err) {
-            console.log("Error joining room:", err);
-        });
+        gameHub.invoke("JoinRoom", joinData)
+            .then(function () {
+                console.log(`Joined room ${roomId} successfully.`);
+                currentRoomId = roomId;
+                isRoomOwner = false;
+            })
+            .catch(function (err) {
+                console.error("Error joining room:", err);
+            });
     }
 
+    // Hàm gửi tin nhắn Netplay
+    function sendNetplayMessage(message) {
+        if (!currentRoomId) {
+            console.warn("You are not in a room.");
+            return;
+        }
 
+        const netplayMessage = {
+            Message: {
+                SenderId: userId,
+                Content: message,
+                Extra: {
+                    GameName: EJS_gameName
+                }
+            },
+            Sender: userId,
+            Extra: {
+                GameName: EJS_gameName
+            }
+        };
+
+        gameHub.invoke("Netplay", currentRoomId, netplayMessage)
+            .then(function () {
+                console.log("Netplay message sent:", message);
+            })
+            .catch(function (err) {
+                console.error("Error sending netplay message:", err);
+            });
+    }
 </script>
-
-}

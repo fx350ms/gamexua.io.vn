@@ -31,7 +31,7 @@ namespace GameXuaVN.Web.Controllers
         }
 
 
-        public async Task<IActionResult> Join(long id)
+        public async Task<IActionResult> Join(long id, int playerId)
         {
             var dto = await _roomAppService.GetAsync(new EntityDto<long>(id));
             var gameDto = await _gameAppService.GetAsync(new EntityDto<int>(dto.GameId));
@@ -42,7 +42,8 @@ namespace GameXuaVN.Web.Controllers
             {
                 Room = dto,
                 Game = gameDto,
-                Players = new List<string>() { User.Identity.Name }
+                Players = new List<string>() { User.Identity.Name },
+                PlayerId = playerId
             };
             return View(model);
         }

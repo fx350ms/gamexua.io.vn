@@ -9,5 +9,6 @@ namespace GameXuaVN.Web.Models.Rooms
         public RoomDto Room { get; set; }
         public GameDto Game { get; set; }
         public List<string> Players { get; set; }
+        public int PlayerId { get; set; }
     }
 }

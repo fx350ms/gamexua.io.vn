@@ -29,13 +29,12 @@
     EJS_gameUrl = "@Url.Action("GetFile", "Nes", new { id = Model.Game.Id })"
 
     EJS_gameID = '@Model.Game.Id';
-
     EJS_oldCores = true;
     EJS_netplayUrl = "/gameHub";
 </script>
 
 
-@* <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script> *@
+<script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script> 
 
 @* <script src="~/view-resources/views/rooms/gamehub.js"></script> *@
 
@@ -45,7 +44,7 @@
     const playerId = '@Model.PlayerId';
     const userId = '@User.Identity.GetUserId()';
     const userName = '@User.Identity.Name';
-    const roomId = EJS_gameID;
+    const roomId = '@Model.Room.Id';
     // Kết nối SignalR
     const gameHub = new signalR.HubConnectionBuilder()
         .withUrl("/gameHub") // Đường dẫn tới Hub SignalR
@@ -55,7 +54,7 @@
     let currentRoomId = null;
 
     // Kết nối tới SignalR Hub
-     gameHub.start()
+    gameHub.start()
         .then(function () {
             console.log("Connected to GameHub!");
             createOrJoin();
@@ -86,124 +85,136 @@
 
     // Lắng nghe tin nhắn Netplay
     gameHub.on("netplay", function (message) {
+        debugger;
         console.log("Netplay message received:", message);
     });
 
     // Hàm tạo hoặc tham gia phòng
-     function createOrJoin() {
-        if (!roomId) {
-            console.error("Room ID is undefined or invalid.");
-            return;
+    function createOrJoin() {
+        if (playerId == '1') {
+            openRoom(roomId);
+        }
+        else {
+            joinRoom(roomId);
+        }
+        // if (!roomId) {
+        //     console.error("Room ID is undefined or invalid.");
+        //     return;
+        // }
+
+        // gameHub.invoke("CheckPresence", roomId)
+        //     .then(function () {
+
+        //     })
+        //     .catch(function (err) {
+        //         console.error("Error invoking CheckPresence:", err);
+        //     });
+    }
+
+    // gameHub.on("check-presence-callback", function (roomExists, roomId, userCount) {
+    //     debugger;
+    //     if (roomExists) {
+
+    //         console.log(`${userCount} user(s) in room ${roomId}, joining room...`);
+    //         joinRoom(roomId);
+    //     } else {
+    //         console.log(`Room ${roomId} does not exist, opening...`);
+    //         openRoom(roomId);
+    //     }
+    // });
+
+    //  gameHub.on("open-room-callback", function (roomExists, roomId, userCount) {
+    //     if (roomExists) {
+    //         console.log(`${userCount} user(s) in room ${roomId}, joining room...`);
+    //         joinRoom(roomId);
+    //     } else {
+    //         console.log(`Room ${roomId} does not exist, opening...`);
+    //         openRoom(roomId);
+    //     }
+    // });
+    gameHub.on("user-connected", function (roomId, data) {
+        console.log(`Room ${roomId} user join`);
+    });
+        //user-connected
+        // Hàm mở phòng
+        function openRoom(roomId) {
+            const roomData = {
+                Id: roomId,
+                SessionId: roomId,
+                UserId: userId,
+                Password: "", // Nếu cần mật khẩu, có thể thêm vào đây
+                MaxParticipantsAllowed: 10, // Số người tối đa trong phòng
+                CoreVer: 1, // Phiên bản Core
+                Extra: {
+                    Domain: "example.com",
+                    GameId: parseInt(EJS_gameID),
+                    RoomName: EJS_gameName
+                }
+            };
+
+            gameHub.invoke("OpenRoom", roomData)
+                .then(function () {
+                    console.log(`Room ${roomId} opened successfully.`);
+                    currentRoomId = roomId;
+                    isRoomOwner = true;
+                })
+                .catch(function (err) {
+                    console.error("Error opening room:", err);
+                });
         }
 
-        gameHub.invoke("CheckPresence", roomId)
-            .then(function () {
-             
-            })
-            .catch(function (err) {
-                console.error("Error invoking CheckPresence:", err);
-            });
-    }
+        // Hàm tham gia phòng
+        function joinRoom(roomId) {
+            const joinData = {
+                RoomId: roomId,
+                SessionId: roomId,
+                UserId: userId,
+                Password: "", // Nếu cần mật khẩu, có thể thêm vào đây
+                Extra: {
+                    Domain: "example.com",
+                    GameId: parseInt(EJS_gameID),
+                    RoomName: EJS_gameName
+                }
+            };
 
-        gameHub.on("check-presence-callback", function (roomExists, roomId, userCount) {
-            if (roomExists) {
-                
-                console.log(`${userCount} user(s) in room ${roomId}, joining room...`);
-                joinRoom(roomId);
-            } else {
-                console.log(`Room ${roomId} does not exist, opening...`);
-                openRoom(roomId);
-            }
-        });
-
-         gameHub.on("open-room-callback", function (roomExists, roomId, userCount) {
-            if (roomExists) {
-                console.log(`${userCount} user(s) in room ${roomId}, joining room...`);
-                joinRoom(roomId);
-            } else {
-                console.log(`Room ${roomId} does not exist, opening...`);
-                openRoom(roomId);
-            }
-        });
-
-      
-    // Hàm mở phòng
-    function openRoom(roomId) {
-        const roomData = {
-            SessionId: roomId,
-            UserId: userId,
-            Password: "", // Nếu cần mật khẩu, có thể thêm vào đây
-            MaxParticipantsAllowed: 10, // Số người tối đa trong phòng
-            CoreVer: 1, // Phiên bản Core
-            Extra: {
-                Domain: "example.com",
-                GameId: parseInt(EJS_gameID),
-                RoomName: EJS_gameName
-            }
-        };
-
-        gameHub.invoke("OpenRoom", roomData)
-            .then(function () {
-                console.log(`Room ${roomId} opened successfully.`);
-                currentRoomId = roomId;
-                isRoomOwner = true;
-            })
-            .catch(function (err) {
-                console.error("Error opening room:", err);
-            });
-    }
-
-    // Hàm tham gia phòng
-    function joinRoom(roomId) {
-        const joinData = {
-            SessionId: roomId,
-            UserId: userId,
-            Password: "", // Nếu cần mật khẩu, có thể thêm vào đây
-            Extra: {
-                Domain: "example.com",
-                GameId: parseInt(EJS_gameID),
-                RoomName: EJS_gameName
-            }
-        };
-
-        gameHub.invoke("JoinRoom", joinData)
-            .then(function () {
-                console.log(`Joined room ${roomId} successfully.`);
-                currentRoomId = roomId;
-                isRoomOwner = false;
-            })
-            .catch(function (err) {
-                console.error("Error joining room:", err);
-            });
-    }
-
-    // Hàm gửi tin nhắn Netplay
-    function sendNetplayMessage(message) {
-        if (!currentRoomId) {
-            console.warn("You are not in a room.");
-            return;
+            gameHub.invoke("JoinRoom", joinData)
+                .then(function () {
+                    console.log(`Joined room ${roomId} successfully.`);
+                    currentRoomId = roomId;
+                    isRoomOwner = false;
+                })
+                .catch(function (err) {
+                    console.error("Error joining room:", err);
+                });
         }
 
-        const netplayMessage = {
-            Message: {
-                SenderId: userId,
-                Content: message,
+        // Hàm gửi tin nhắn Netplay
+        function sendNetplayMessage(message) {
+            if (!currentRoomId) {
+                console.warn("You are not in a room.");
+                return;
+            }
+
+            const netplayMessage = {
+                Message: {
+                    SenderId: userId,
+                    Content: message,
+                    Extra: {
+                        GameName: EJS_gameName
+                    }
+                },
+                Sender: userId,
                 Extra: {
                     GameName: EJS_gameName
                 }
-            },
-            Sender: userId,
-            Extra: {
-                GameName: EJS_gameName
-            }
-        };
+            };
 
-        gameHub.invoke("Netplay", currentRoomId, netplayMessage)
-            .then(function () {
-                console.log("Netplay message sent:", message);
-            })
-            .catch(function (err) {
-                console.error("Error sending netplay message:", err);
-            });
-    }
+            gameHub.invoke("Netplay", currentRoomId, netplayMessage)
+                .then(function () {
+                    console.log("Netplay message sent:", message);
+                })
+                .catch(function (err) {
+                    console.error("Error sending netplay message:", err);
+                });
+        }
 </script>

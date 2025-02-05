@@ -64,7 +64,7 @@ export class Play extends Phaser.Scene {
         // Tính toán offset để căn giữa grid:
         // Vì grid được đảm bảo không vượt quá (availableWidth - 2*margin) nên offsetX và offsetY sẽ luôn >= margin.
         const offsetX = (availableWidth - gridWidth) / 2;
-        const offsetY = (availableHeight - gridHeight) / 2;
+        const offsetY = (availableHeight - gridHeight) / 2 - 50;
 
         // Danh sách màu: phần tử đầu tiên dùng cho ô trống
         const colors = [0xffffff, 0xff0000, 0x0000ff, 0x00ff00]; // Trắng, Đỏ, Xanh dương, Xanh lá
@@ -106,6 +106,7 @@ export class Play extends Phaser.Scene {
                 offsetX: 3,
                 offsetY: 3,
                 color: '#000',
+                 
                 blur: 3,
                 stroke: true,
                 fill: true
@@ -143,7 +144,28 @@ export class Play extends Phaser.Scene {
         }).setOrigin(0.5, 0.5);
         var buttonWidth = 200;
         var x = (width - buttonWidth) / 2;
-        this.createButton(x, gridBottom + 100, 200, 50, 'Ván mới', () => { this.scene.restart({ level: this.level, score: this.score }); });
+        this.createButton(x, gridBottom + 100, 200, 50, 'Bỏ qua', () => {
+            this.timerEvent.remove();
+            this.scene.start('GameOver', {
+                level: this.level,
+                oldMatrix: this.coloredCells,
+                currentMatrix: this.grid.map(row => row.map(cell => cell.fillColor)),
+                gridSize: this.gridSize,
+                randomCells: this.randomCells,
+                score: this.score
+            });
+
+            //this.scene.restart({ level: this.level, score: this.score 
+            //}
+           // );
+        });
+        //this.createButton(x * 3, gridBottom + 100, 200, 50, 'Ván mới', () => {
+        //    this.timerEvent.remove();
+          
+        //    this.scene.restart({ level: this.level, score: this.score 
+        //    }
+        //     );
+        //});
     }
 
     createTimerText() {

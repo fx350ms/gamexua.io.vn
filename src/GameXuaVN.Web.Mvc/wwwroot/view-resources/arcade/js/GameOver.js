@@ -27,7 +27,8 @@ export class GameOver extends Phaser.Scene {
         const titleBackground = this.add.rectangle(width / 2, 60, width * 0.8, 70, 0x000000, 0.8);
         titleBackground.setOrigin(0.5, 0.5);
 
-        this.add.text(centerX, 50, 'Game Over', { fontSize: '32px', fill: '#f00', fontWeight: 'bold',
+        this.add.text(centerX, 50, 'Game Over', {
+            fontSize: '32px', fill: '#f00', fontWeight: 'bold',
             stroke: '#000',
             strokeThickness: 4
         }).setOrigin(0.5, 0.5);
@@ -39,11 +40,12 @@ export class GameOver extends Phaser.Scene {
         this.createButton(x, 500, 'Chơi lại', () => this.scene.start('Play', { level: this.level, gridSize: this.gridSize, randomCells: this.randomCells }));
         this.createButton(x, 570, 'Bảng xếp hạng', () => this.scene.start('Leaderboard')); // Add button to go to leaderboard
 
-        
+
     }
 
     displayMatrices() {
-        const cellSize = 16; // Reduced cell size to half
+
+        const cellSize = this.sys.game.config.width < 600 ? 16 : this.sys.game.config.width < 900 ? 25 : 30; // Reduced cell size to half
         const halfWidth = this.cameras.main.width / 2;
         const offsetY = 250; // Adjusted to leave space for the label
 
@@ -51,7 +53,7 @@ export class GameOver extends Phaser.Scene {
         const oldMatrixCenterX = halfWidth / 2;
         const oldMatrixOffsetX = oldMatrixCenterX - (this.gridSize * cellSize) / 2;
 
-        const titleBackground1 = this.add.rectangle(oldMatrixCenterX,  offsetY - 30, halfWidth * 0.7, 30, 0x000000, 0.8);
+        const titleBackground1 = this.add.rectangle(oldMatrixCenterX, offsetY - 30, halfWidth * 0.7, 30, 0x000000, 0.8);
         titleBackground1.setOrigin(0.5, 0.5);
 
 
@@ -74,8 +76,8 @@ export class GameOver extends Phaser.Scene {
         const currentMatrixCenterX = halfWidth + halfWidth / 2;
         const currentMatrixOffsetX = currentMatrixCenterX - (this.gridSize * cellSize) / 2;
 
-        
-        const titleBackground2 = this.add.rectangle(currentMatrixCenterX,  offsetY - 30, halfWidth * 0.7, 30, 0x000000, 0.8);
+
+        const titleBackground2 = this.add.rectangle(currentMatrixCenterX, offsetY - 30, halfWidth * 0.7, 30, 0x000000, 0.8);
         titleBackground2.setOrigin(0.5, 0.5);
 
         this.add.text(currentMatrixCenterX, offsetY - 30, 'Của bạn', {
@@ -102,15 +104,15 @@ export class GameOver extends Phaser.Scene {
         localStorage.setItem('highScores', JSON.stringify(highScores));
     }
 
-    
+
     createButton(x, y, text, callback) {
         const button = this.add.graphics();
         button.fillStyle(0x0000ff, 1);
         button.fillRoundedRect(x, y, 200, 50, 10); // Added rounded corners with a radius of 10
-    
+
         const buttonText = this.add.text(x + 100, y + 25, text, { fontSize: '24px', fill: '#fff' });
         buttonText.setOrigin(0.5, 0.5);
-    
+
         button.setInteractive(new Phaser.Geom.Rectangle(x, y, 200, 50), Phaser.Geom.Rectangle.Contains);
         button.on('pointerdown', callback);
         button.on('pointerover', () => {

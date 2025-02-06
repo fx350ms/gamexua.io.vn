@@ -17,4 +17,11 @@ namespace GameXuaVN
         public static readonly string DefaultPassPhrase =
             DebugHelper.IsDebug ? "gsKxGZ012HLL3MI5" : "c219563b5462456bbfd59d83d9739aa8";
     }
+
+    public enum ScoreType
+    {
+        HighScore = 1,
+        FastestTime = 2,
+        LongestDuration = 3
+    }
 }

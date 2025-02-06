@@ -13,6 +13,8 @@ namespace GameXuaVN.EntityFrameworkCore
         public DbSet<Game> Games { get; set; }
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Score> Scores { get; set; }
+
         public GameXuaVNDbContext(DbContextOptions<GameXuaVNDbContext> options)
             : base(options)
         {
